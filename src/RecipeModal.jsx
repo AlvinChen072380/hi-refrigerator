@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 import { SEO } from "./SEO";
+import { Cross } from "./icons/Cross";
 
 // -- Helper Function: 食材資料格式轉換 --
 const getIngredients = (meal) => {
@@ -193,7 +194,7 @@ function RecipeModal({ meal, onClose, loading }) {
       <div className="modal-wrapper" onClick={(e) => e.stopPropagation()}>
         
       <span className="close-btn" onClick={onClose}>
-          &times;
+          <Cross />
         </span>
       
       <div className="modal-content" >
