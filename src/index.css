@@ -363,8 +363,7 @@ h1 {
 /* 4.右欄(採買清單)樣式*/
 .modal-right {
   background: var(--bg-color);
-  padding: 40px 30px;
-  border-left: 1px solid var(--border-color);
+  padding: 40px 30px;  
   overflow-y: auto;
   display: flex;
   flex-direction: column;

@@ -209,7 +209,7 @@ function App() {
           >
             Hi refrigerator!
           </h1>
-          <p>What's in your fridge? Let's find some recipes !</p>
+          <p>What's in fridge? Let's find some recipes!</p>
         </header>
 
         <section className="search-box">
