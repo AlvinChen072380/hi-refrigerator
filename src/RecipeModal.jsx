@@ -188,13 +188,15 @@ function RecipeModal({ meal, onClose, loading }) {
         />
       )}
       {/* onClick={onClose} 綁在最外層，點擊灰色背景時也能關閉 */}
-      <div className="modal-content" onClick={(e) => e.stopPropagation()}>
-        {/* e.Propagation() **防止點擊內容區塊時誤觸發外層的關閉事件，
-              阻止 capturing & bubbling的傳遞階段 */}
-        <span className="close-btn" onClick={onClose}>
+      {/* e.Propagation() **防止點擊內容區塊時誤觸發外層的關閉事件，
+              阻止 capturing & bubbling的傳遞階段 */} 
+      <div className="modal-wrapper" onClick={(e) => e.stopPropagation()}>
+        
+      <span className="close-btn" onClick={onClose}>
           &times;
         </span>
-
+      
+      <div className="modal-content" >
         {/* -- 內容區 -- */}
         {loading ? (
           <div style={{ padding: "20px", textAlign: "center" }}>
@@ -308,6 +310,7 @@ function RecipeModal({ meal, onClose, loading }) {
           <p>發生錯誤，無法讀取資料</p>
         )}
       </div>
+    </div>
     </div>
   );
 }
