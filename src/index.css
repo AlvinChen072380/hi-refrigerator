@@ -322,8 +322,7 @@ h1 {
   transition: color 0.3s;
   display: flex;
   align-items: center;
-  justify-content: center;
-  padding-bottom: 8px;
+  justify-content: center;  
 }
 .close-btn:hover {
   background: var(--danger-color);  
@@ -666,6 +665,7 @@ h1 {
     width: 40px;
     height: 40px;
     font-size: 1.8rem;
+    text-align: center;
     display: flex;
     align-items: center;
     justify-content: center;
