@@ -32,3 +32,4 @@ local.properties
 
 .vercel
 .env*.local
+node_modules

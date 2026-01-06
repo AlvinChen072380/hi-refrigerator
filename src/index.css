@@ -59,7 +59,10 @@
     top: 20px;
     right: 20px;
     z-index: 100;
+<<<<<<< HEAD
     display: flex;
+=======
+>>>>>>> ed0e1bc4a0d2cc13948addeae5ae1275fc38ac93
   }
   
 
@@ -81,6 +84,7 @@
     color: var(--text-main);
   }
 
+<<<<<<< HEAD
   .vegantoggle-btn {
    background: var(--card-bg);
     border: 3px solid var(--border-color);
@@ -98,6 +102,8 @@
 }
 
 
+=======
+>>>>>>> ed0e1bc4a0d2cc13948addeae5ae1275fc38ac93
   .theme-toggle-btn:hover {
     transform: rotate(360deg);
     box-shadow: 0 6px 12px var(--shadow-color);
@@ -172,7 +178,11 @@ h1 {
   display: flex;
   gap: 10px;
   max-width: 600px;
+<<<<<<< HEAD
   margin: 10px 0px 40px 0px;
+=======
+  margin: 10px 0px 60px 0px;
+>>>>>>> ed0e1bc4a0d2cc13948addeae5ae1275fc38ac93
   padding: 0 20px;
   position: relative; /* GSAP 定位使用 */
 }
@@ -242,7 +252,10 @@ h1 {
   /* GSAP 標記 後續使用 .stagger-card 來抓取卡片 */
   opacity: 0;
   visibility: hidden;
+<<<<<<< HEAD
   cursor: pointer;
+=======
+>>>>>>> ed0e1bc4a0d2cc13948addeae5ae1275fc38ac93
 }
 .recipe-card:hover {
   transform: translateY(-10px);
@@ -624,10 +637,13 @@ h1 {
   color: var(--text-main);
 }
 
+<<<<<<< HEAD
 
 
 
 
+=======
+>>>>>>> ed0e1bc4a0d2cc13948addeae5ae1275fc38ac93
 @keyframes spin {
   0% {
     transform: rotate(0deg);
@@ -709,6 +725,7 @@ h1 {
     background: var(--bg-color);
     padding-bottom: 50px;
   }
+<<<<<<< HEAD
 
   .app-nav {
     position: absolute;
@@ -737,4 +754,6 @@ h1 {
 
     color: var(--text-main);
   }
+=======
+>>>>>>> ed0e1bc4a0d2cc13948addeae5ae1275fc38ac93
 }
