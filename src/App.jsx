@@ -555,7 +555,7 @@ function App() {
         </div>
       )} */}
 
-      {isVeganMode && isAnalyzing && !loading && (
+      {isVeganMode && isAnalyzing && !loading && hasSearched &&(
         <div
           className="analyzing-container"
           style={{ textAlign: "center", padding: "40px" }}
@@ -579,8 +579,8 @@ function App() {
         recipes.length > 0 &&
         analyzedRecipes.length === 0 && (
           <div className="error-text">
-            <h3>🥦 No Vegan Options Found</h3>
-            <p>AI filtered out recipes containing meat.</p>
+            <h3>No Options Found</h3>
+            <p>AI filtered out recipes...</p>
           </div>
         )}
 
