@@ -213,7 +213,7 @@ function App() {
             onClick={handleSmartSearch}
             disabled={loading || isSearching}
           >
-            {isSearching ? "AI..." : loading ? "Loading..." : "Search"}
+            { isSearching ? "almost down..." : loading ? "Loading..." : isVeganMode ? "Vegetarian Search": "Search"}
           </button>
         </section>
         {/* 新增AI 翻譯提示條 */}

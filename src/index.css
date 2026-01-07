@@ -149,7 +149,7 @@ body {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  padding-top: 40px;  
+  padding-top: 40px;
 }
 .hero-section h1 {
   position: relative;
@@ -742,9 +742,7 @@ header {
     justify-content: center;
     align-items: center;
     padding-top: 40px;
-    
   }
-
   .theme-toggle-btn {
     background: var(--card-bg);
     border: 3px solid var(--border-color);
@@ -753,17 +751,13 @@ header {
     height: 45px;
     cursor: pointer;
     margin-right: 10px;
-
     display: flex;
     align-items: center;
     justify-content: center;
-
     box-shadow: 0 4px 6px var(--shadow-color);
     transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-
     color: var(--text-main);
   }
-
   .vegantoggle-btn {
     background: var(--card-bg);
     border: 3px solid var(--border-color);
@@ -776,7 +770,19 @@ header {
     justify-content: center;
     box-shadow: 0 4px 6px var(--shadow-color);
     transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-
     color: var(--text-main);
+  }
+  .logo-text {
+    font-size: 1.9rem;
+    color: var(--primary-color);
+    margin-bottom: 10px;
+    letter-spacing: -1px;
+    position: relative;
+  }
+
+  .leaf-icon {
+    position: absolute;
+    top: 15px;
+    margin-left: 4px;
   }
 }
