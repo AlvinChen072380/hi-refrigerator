@@ -159,25 +159,39 @@ body {
 
 header {
   padding: 20px;
-  text-align: center;
-  /* GSAP預計做淡出 */
-  /* opacity: 1; */
-  /* margin-top: 20px; */
+  text-align: center;  
 }
 /* 標題與搜尋區 */
-h1 {
+
+.logo-link {
+  text-decoration: none; 
+  color: inherit;        
+  display: flex;         
+  align-items: center; 
+  justify-content: center;  
+}
+
+.logo-text {
   font-size: 2.5rem;
   color: var(--primary-color);
   margin-bottom: 10px;
   letter-spacing: -1px;
+  position: relative;
 }
+
+.leaf-icon {
+  position: absolute;
+  top:22px;
+  margin-left: 10px;
+}
+
 .search-box {
   display: flex;
   gap: 10px;
   max-width: 600px;
   margin: 10px 0px 40px 0px;
   padding: 0 20px;
-  position: relative; /* GSAP 定位使用 */
+  position: relative; 
 }
 .search-input {
   flex: 1;

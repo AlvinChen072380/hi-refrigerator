@@ -1,19 +1,16 @@
-import { Utensils } from "lucide-react";
+import { Utensils, Leaf } from "lucide-react";
 
-const Logo = () => {
+const Logo = ({ isVeganMode }) => {
   return (
-    <a 
-      href="/" 
-      className="decoration-none" 
-    >
-      <div className="h1">
-        <Utensils size={24} strokeWidth={2.5} stroke="green" />
-      </div>
+    <div className="logo-link" >     
       
-      <h1 className="h1">
-        Hi refrigerator!
-      </h1>
-    </a>
+      <h1 className="logo-text">
+        Hi refrigerator! 
+        {isVeganMode && (
+          <Leaf size={24} strokeWidth={2.5} stroke="green" className="leaf-icon"/>
+      )}
+      </h1>      
+    </div>
   );
 };
 

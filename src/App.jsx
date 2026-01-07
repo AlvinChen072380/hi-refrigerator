@@ -442,9 +442,9 @@ function App() {
 
       <div className="hero-section">
         <header>
-          <h1 onClick={onResetWrapper} title="Back to Home">
-           <Logo />
-          </h1>
+          <div onClick={onResetWrapper} title="Back to Home">
+           <Logo isVeganMode={isVeganMode} />
+          </div>
           <p>What's in fridge? Let's find some recipes!</p>
         </header>
 
