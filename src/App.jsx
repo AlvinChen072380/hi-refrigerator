@@ -107,13 +107,13 @@ function App() {
 
       if (hasSearched) {
         gsap.to(".hero-section", {
-          minHeight: "180px",
+          minHeight: "150px",
           duration: 1.2,
           ease: "power3.inOut",
         });
         gsap.to("header h1", {
           scale: 0.8,
-          marginBottom: "5px",
+          /* marginBottom: "5px", */
           duration: 1.2,
           ease: "power3.inOut",
         });
@@ -125,7 +125,8 @@ function App() {
         });
         gsap.to("header h1", {
           scale: 1,
-          marginBottom: "10px",
+          /* marginBottom: "10px", */
+          /* marginTop: "40px", */
           duration: 0.9,
           ease: "power3.inOut",
         });
@@ -139,26 +140,35 @@ function App() {
 
   useGSAP(
     () => {
-      if (currentDisplayRecipes.length > 0) {
-        gsap.killTweensOf(".recipe-card");
+      if (loading || isAnalyzing || currentDisplayRecipes.length === 0) return;      
 
-        gsap.fromTo(
-          ".recipe-card",
-          {
-            y: 50,
-            autoAlpha: 0,
-          },
-          {
-            y: 0,
-            autoAlpha: 1,
-            duration: 0.6,
-            stagger: 0.2,
-            ease: "back.inOut(1.5)",
-          }
-        );
-      }
+      const cards = gsap.utils.toArray(".recipe-card");
+      if (cards.length === 0) return;
+
+      gsap.killTweensOf(".recipe-card");
+
+      gsap.set(".recipe-card", { clearProps: "all" });
+
+      gsap.fromTo(
+        ".recipe-card",
+        {
+          y: 50,
+          autoAlpha: 0,
+        },
+        {
+          y: 0,
+          autoAlpha: 1,
+          duration: 0.6,
+          stagger: 0.2,
+          ease: "back.inOut(1.5)",
+          onInterrupt: () => gsap.set(".recipe-card", { autoAlpha: 1 })
+        }
+      );
     },
-    { scope: containerRef, dependencies: [currentDisplayRecipes] }
+    { 
+      scope: containerRef, 
+      dependencies: [currentDisplayRecipes, loading, isAnalyzing] 
+    }
   ); //***dependencies
 
   /* const handleSearch = async () => {
@@ -545,7 +555,7 @@ function App() {
         </div>
       )} */}
 
-      {isVeganMode && isAnalyzing && (
+      {isVeganMode && isAnalyzing && !loading && (
         <div
           className="analyzing-container"
           style={{ textAlign: "center", padding: "40px" }}

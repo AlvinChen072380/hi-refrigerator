@@ -59,10 +59,7 @@
     top: 20px;
     right: 20px;
     z-index: 100;
-<<<<<<< HEAD
     display: flex;
-=======
->>>>>>> ed0e1bc4a0d2cc13948addeae5ae1275fc38ac93
   }
   
 
@@ -84,7 +81,6 @@
     color: var(--text-main);
   }
 
-<<<<<<< HEAD
   .vegantoggle-btn {
    background: var(--card-bg);
     border: 3px solid var(--border-color);
@@ -102,8 +98,6 @@
 }
 
 
-=======
->>>>>>> ed0e1bc4a0d2cc13948addeae5ae1275fc38ac93
   .theme-toggle-btn:hover {
     transform: rotate(360deg);
     box-shadow: 0 6px 12px var(--shadow-color);
@@ -154,6 +148,8 @@ body {
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  margin-top: 40px;
+  margin-bottom: 40px
 }
 .hero-section h1 {
   position: relative;
@@ -166,6 +162,7 @@ header {
   text-align: center;
   /* GSAP預計做淡出 */
   opacity: 1;
+  /* margin-top: 20px; */
 }
 /* 標題與搜尋區 */
 h1 {
@@ -178,11 +175,7 @@ h1 {
   display: flex;
   gap: 10px;
   max-width: 600px;
-<<<<<<< HEAD
   margin: 10px 0px 40px 0px;
-=======
-  margin: 10px 0px 60px 0px;
->>>>>>> ed0e1bc4a0d2cc13948addeae5ae1275fc38ac93
   padding: 0 20px;
   position: relative; /* GSAP 定位使用 */
 }
@@ -252,10 +245,7 @@ h1 {
   /* GSAP 標記 後續使用 .stagger-card 來抓取卡片 */
   opacity: 0;
   visibility: hidden;
-<<<<<<< HEAD
   cursor: pointer;
-=======
->>>>>>> ed0e1bc4a0d2cc13948addeae5ae1275fc38ac93
 }
 .recipe-card:hover {
   transform: translateY(-10px);
@@ -637,13 +627,10 @@ h1 {
   color: var(--text-main);
 }
 
-<<<<<<< HEAD
 
 
 
 
-=======
->>>>>>> ed0e1bc4a0d2cc13948addeae5ae1275fc38ac93
 @keyframes spin {
   0% {
     transform: rotate(0deg);
@@ -725,7 +712,6 @@ h1 {
     background: var(--bg-color);
     padding-bottom: 50px;
   }
-<<<<<<< HEAD
 
   .app-nav {
     position: absolute;
@@ -733,7 +719,7 @@ h1 {
     right: 5px;
     z-index: 100;
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
   }
 
   .theme-toggle-btn {
@@ -743,7 +729,7 @@ h1 {
     width: 45px;
     height: 45px;
     cursor: pointer;
-    margin-top: 10px;
+    margin-right: 10px;
 
     display: flex;
     align-items: center;
@@ -754,6 +740,20 @@ h1 {
 
     color: var(--text-main);
   }
-=======
->>>>>>> ed0e1bc4a0d2cc13948addeae5ae1275fc38ac93
+
+  .vegantoggle-btn {
+   background: var(--card-bg);
+    border: 3px solid var(--border-color);
+    border-radius: 50%;
+    width: 45px;
+    height: 45px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 6px var(--shadow-color);
+    transition: all .3s cubic-bezier(.25,.8,.25,1);
+
+    color: var(--text-main);
+}
 }
