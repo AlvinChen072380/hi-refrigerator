@@ -108,7 +108,7 @@ function App() {
 
       if (hasSearched) {
         gsap.to(".hero-section", {
-          minHeight: "150px",
+          minHeight: "180px",
           duration: 1.2,
           ease: "power3.inOut",
         });
@@ -170,11 +170,7 @@ function App() {
       scope: containerRef, 
       dependencies: [currentDisplayRecipes, loading, isAnalyzing] 
     }
-  ); //***dependencies
-
-  /* const handleSearch = async () => {
-    searchRecipes(searchTerm);
-  }; */
+  );  
 
   // -- 核心邏輯:監聽 selectedId 的變化 --
   useEffect(() => {
@@ -244,17 +240,7 @@ function App() {
 
     const isEnglishOnly = /^[\w\s\d\p{P}]+$/u.test(query);
 
-    try {
-      /*  //1.先詢問後端AI API
-      const response = await fetch("/api/smart-search", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ searchTerm: query }),
-      }); */
-
-      /*  if (!response.ok) {
-        throw new Error(`翻譯 API 錯誤: ${response.status}`);
-      } */
+    try {      
 
       let keywordToSearch = query;
 
@@ -533,28 +519,7 @@ function App() {
               Sorry, no recipes found for **{searchTerm}**.
             </p>
           )}
-      </section>
-      {/* {isVeganMode && isAnalyzing && (
-        <div
-          style={{
-            background: "#fff7ed",
-            border: "1px solid #ffedd5",
-            color: "#c2410c",
-            padding: "10px 15px",
-            borderRadius: "8px",
-            margin: "15px 0",
-            fontSize: "0.95rem",
-            display: "flex",
-            alignItems: "center",
-            gap: "8px",
-          }}
-        >
-          <p className="error-text">
-            🌱 素食友善模式篩選中...
-            {warning}
-          </p>
-        </div>
-      )} */}
+      </section> 
 
       {isVeganMode && isAnalyzing && !loading && hasSearched &&(
         <div

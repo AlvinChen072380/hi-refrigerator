@@ -17,9 +17,9 @@
   --card-bg: #ffffff;
   --text-main: #2c3e50;
   --text-secondary: #7f8c8d;
-  --border-color: #eee;  
-  --shadow-color: rgba(0,0,0,.08);
-  --modal-overlay: rgba(0,0,0,.6);
+  --border-color: #eee;
+  --shadow-color: rgba(0, 0, 0, 0.08);
+  --modal-overlay: rgba(0, 0, 0, 0.6);
   --input-bg: #ffffff;
 
   /* 佈局系統(Layout) */
@@ -31,88 +31,89 @@
   /* 動畫預備(Transition) */
   --transition-fast: 0.2s ease;
   --transition-medium: 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
-  }
-
-  /* dark model */
-  /* 當 html 標籤上有 data-theme="dark" 屬性時，覆蓋上面的變數 */
-  [data-theme='dark'] {
-    /* main color */
-    --primary-color: #f39c12;
-    --primary-hover: #e67e22;
-
-    /* background & text dark model */
-    --bg-color: #121212;
-    --card-bg: #1e1e1e;
-    --text-main: #e0e0e0;           
-    --text-secondary: #a0a0a0;      
-    --border-color: #333333;       
-    --input-bg: #2d2d2d;
-
-    /* functional color */
-    --shadow-color: rgba(0,0,0,.5);
-    --modal-overlay: rgba(0,0,0,.85);
-    --accent-blue: #5dade2;
-  }  
-
-  .app-nav {
-    position: absolute;
-    top: 20px;
-    right: 20px;
-    z-index: 100;
-    display: flex;
-  }
-  
-
-  .theme-toggle-btn {
-    background: var(--card-bg);
-    border: 3px solid var(--border-color);
-    border-radius: 50%;
-    width: 45px;
-    height: 45px;
-    cursor: pointer;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    box-shadow: 0 4px 6px var(--shadow-color);
-    transition: all .3s cubic-bezier(.25,.8,.25,1);
-
-    color: var(--text-main);
-  }
-
-  .vegantoggle-btn {
-   background: var(--card-bg);
-    border: 3px solid var(--border-color);
-    border-radius: 50%;
-    width: 45px;
-    height: 45px;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    box-shadow: 0 4px 6px var(--shadow-color);
-    transition: all .3s cubic-bezier(.25,.8,.25,1);
-
-    color: var(--text-main);
 }
 
+/* dark model */
+/* 當 html 標籤上有 data-theme="dark" 屬性時，覆蓋上面的變數 */
+[data-theme="dark"] {
+  /* main color */
+  --primary-color: #f39c12;
+  --primary-hover: #e67e22;
 
-  .theme-toggle-btn:hover {
-    transform: rotate(360deg);
-    box-shadow: 0 6px 12px var(--shadow-color);
-    border: var(--primary-color);
-    color: var(--primary-color);
-  }
-  .theme-toggle-btn:active {
-    transform: scale(0.95);
-  }
+  /* background & text dark model */
+  --bg-color: #121212;
+  --card-bg: #1e1e1e;
+  --text-main: #e0e0e0;
+  --text-secondary: #a0a0a0;
+  --border-color: #333333;
+  --input-bg: #2d2d2d;
+
+  /* functional color */
+  --shadow-color: rgba(0, 0, 0, 0.5);
+  --modal-overlay: rgba(0, 0, 0, 0.85);
+  --accent-blue: #5dade2;
+}
+
+.app-nav {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  z-index: 100;
+  display: flex;
+}
+
+.theme-toggle-btn {
+  background: var(--card-bg);
+  border: 3px solid var(--border-color);
+  border-radius: 50%;
+  width: 45px;
+  height: 45px;
+  cursor: pointer;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  box-shadow: 0 4px 6px var(--shadow-color);
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+
+  color: var(--text-main);
+}
+
+.vegantoggle-btn {
+  background: var(--card-bg);
+  border: 3px solid var(--border-color);
+  border-radius: 50%;
+  width: 45px;
+  height: 45px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 6px var(--shadow-color);
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+
+  color: var(--text-main);
+}
+
+.theme-toggle-btn:hover {
+  transform: rotate(360deg);
+  box-shadow: 0 6px 12px var(--shadow-color);
+  border: var(--primary-color);
+  color: var(--primary-color);
+}
+.theme-toggle-btn:active {
+  transform: scale(0.95);
+}
 
 .app-container {
   min-height: 100dvh; /* Dynamic Viewport Height */
 }
 
-html, .modal-left, .modal-right, .modal-content {
+html,
+.modal-left,
+.modal-right,
+.modal-content {
   -ms-overflow-style: none;
   scrollbar-width: none;
 }
@@ -132,10 +133,10 @@ body {
   margin: 0;
   line-height: 1.6;
 
-  transition: background-color .3s ease, color .3s ease;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-.error-msg{
+.error-msg {
   text-align: center;
   color: red;
   font-size: 1.2rem;
@@ -148,8 +149,7 @@ body {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  margin-top: 40px;
-  margin-bottom: 40px
+  padding-top: 40px;  
 }
 .hero-section h1 {
   position: relative;
@@ -159,16 +159,16 @@ body {
 
 header {
   padding: 20px;
-  text-align: center;  
+  text-align: center;
 }
 /* 標題與搜尋區 */
 
 .logo-link {
-  text-decoration: none; 
-  color: inherit;        
-  display: flex;         
-  align-items: center; 
-  justify-content: center;  
+  text-decoration: none;
+  color: inherit;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .logo-text {
@@ -181,7 +181,7 @@ header {
 
 .leaf-icon {
   position: absolute;
-  top:22px;
+  top: 22px;
   margin-left: 10px;
 }
 
@@ -191,7 +191,7 @@ header {
   max-width: 600px;
   margin: 10px 0px 40px 0px;
   padding: 0 20px;
-  position: relative; 
+  position: relative;
 }
 .search-input {
   flex: 1;
@@ -219,7 +219,7 @@ header {
   cursor: pointer;
   font-size: 1rem;
   font-weight: 600;
-  transition: ease-out .4s;
+  transition: ease-out 0.4s;
   min-width: 140px;
   display: flex;
   justify-content: center;
@@ -230,7 +230,7 @@ header {
   transform: scale(0.95) !important;
 }
 .search-btn:hover:not(:disabled) {
-  background: var(--primary-hover); 
+  background: var(--primary-hover);
 }
 .search-btn:disabled {
   background-color: #ccc;
@@ -263,7 +263,7 @@ header {
 }
 .recipe-card:hover {
   transform: translateY(-10px);
-  box-shadow: 0 20px 40px rgba(0, 0, 0, .12);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.12);
 }
 .recipe-card img {
   width: 100%;
@@ -281,7 +281,7 @@ header {
   margin: 0 20px 20px;
   color: var(--text-secondary);
   font-size: 0.9rem;
-  flex-grow: 1; 
+  flex-grow: 1;
 }
 
 .recipe-card button {
@@ -292,7 +292,7 @@ header {
   border: none;
   font-weight: bold;
   border-top: 1px solid var(--border-color);
-  cursor: pointer;  
+  cursor: pointer;
   transition: var(--transition-fast);
 }
 .recipe-card button:hover {
@@ -329,8 +329,8 @@ header {
 /* Modal 內容區塊  */
 .modal-content {
   background: var(--card-bg);
-  width: 100%;  
-  height: 90dvh; /* 電腦版：固定高度 */  
+  width: 100%;
+  height: 90dvh; /* 電腦版：固定高度 */
   border-radius: var(--radius-lg);
   box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
   position: relative;
@@ -340,9 +340,9 @@ header {
   color: var(--text-main);
 }
 
- /* 關閉按鈕(X) */
+/* 關閉按鈕(X) */
 .close-btn {
- position: absolute;
+  position: absolute;
   top: 20px;
   right: 20px;
   font-size: 2.5rem;
@@ -350,18 +350,18 @@ header {
   color: white; /* 為了配合圖片背景，之後可以調整 */
   z-index: 1005;
   cursor: pointer;
-  background: rgba(0,0,0,0.3); /* 半透明圓底 */
-  width: 40px; 
+  background: rgba(0, 0, 0, 0.3); /* 半透明圓底 */
+  width: 40px;
   height: 40px;
   border-radius: 50%;
   text-align: center;
   transition: color 0.3s;
   display: flex;
   align-items: center;
-  justify-content: center;  
+  justify-content: center;
 }
 .close-btn:hover {
-  background: var(--danger-color);  
+  background: var(--danger-color);
 }
 /* 2.雙欄 grid 系統 */
 .modal-grid {
@@ -375,11 +375,11 @@ header {
 .modal-left {
   padding: 40px;
   overflow-y: auto;
-  background-color: var(--card-bg); 
+  background-color: var(--card-bg);
 }
 .modal-left h2 {
   display: flex;
-  flex-wrap:wrap;
+  flex-wrap: wrap;
   margin-bottom: 1rem;
   text-align: center;
   font-size: 1.5rem;
@@ -407,7 +407,7 @@ header {
 /* 4.右欄(採買清單)樣式*/
 .modal-right {
   background: var(--bg-color);
-  padding: 40px 30px;  
+  padding: 40px 30px;
   overflow-y: auto;
   display: flex;
   flex-direction: column;
@@ -424,7 +424,7 @@ header {
 }
 .sub-text {
   color: var(--text-secondary);
-  font-size: .9rem;
+  font-size: 0.9rem;
   margin-bottom: 20px;
 }
 .yt-link {
@@ -436,13 +436,12 @@ header {
   border: 1px solid var(--danger-color);
   padding: 10px 20px;
   border-radius: 50px;
-  transition: background-color 0.3s, color .3s;
+  transition: background-color 0.3s, color 0.3s;
 }
 .yt-link:hover {
   background: var(--danger-color);
   color: white;
 }
-
 
 /* 食材清單樣式 */
 .ingredient-list {
@@ -457,13 +456,14 @@ header {
   padding: 14px;
   border-radius: 10px;
   border: 1px solid var(--border-color);
-  display: flex;  
+  display: flex;
   align-items: center;
   gap: 15px;
-  transition: border-color .3s, background-color .3s;
+  transition: border-color 0.3s, background-color 0.3s;
 }
 .ingredient-list.anim-done li {
-  transition: border-color 0.3s, background-color 0.3s, transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  transition: border-color 0.3s, background-color 0.3s,
+    transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
 .ingredient-list li:hover {
@@ -503,7 +503,7 @@ header {
 
 /* 勾勾符號 (預設隱藏) */
 .custom-checkbox::after {
-  content: '✓';
+  content: "✓";
   color: white;
   font-size: 14px;
   font-weight: bold;
@@ -538,10 +538,10 @@ header {
   color: var(--primary-color);
   cursor: pointer;
 }
-.ing-info {  
+.ing-info {
   flex: 1;
   display: flex;
-  align-items: center;  
+  align-items: center;
   cursor: pointer;
 }
 .delete-btn {
@@ -550,7 +550,7 @@ header {
   cursor: pointer;
   opacity: 0.4;
   font-size: 1.2rem;
-  transition:var(--transition-fast);
+  transition: var(--transition-fast);
   padding: 6px;
   color: var(--text-main);
 }
@@ -560,10 +560,9 @@ header {
   color: var(--danger-color);
 }
 
-
 .restore-btn {
   margin-top: auto;
-  padding: 15px;  
+  padding: 15px;
   background: var(--accent-blue);
   color: white;
   border: none;
@@ -585,15 +584,16 @@ header {
   padding-top: 20px;
   border-top: 1px dashed var(--border-color);
 }
-.reset-btn, .copy-btn{
+.reset-btn,
+.copy-btn {
   padding: 12px;
   background-color: transparent;
   color: var(--text-secondary);
   border: 1px solid var(--border-color);
   border-radius: var(--radius-md);
   cursor: pointer;
-  transition: all .2s;
-  font-size: .9rem;
+  transition: all 0.2s;
+  font-size: 0.9rem;
   width: 100%;
 }
 .reset-btn:hover {
@@ -620,7 +620,7 @@ header {
 .spinner {
   width: 40px;
   height: 40px;
-  border: 4px solid rgba(230, 126, 34, .2);
+  border: 4px solid rgba(230, 126, 34, 0.2);
   border-top: 4px solid var(--primary-color);
   border-radius: 50%;
   animation: spin 1s linear infinite;
@@ -641,10 +641,6 @@ header {
   color: var(--text-main);
 }
 
-
-
-
-
 @keyframes spin {
   0% {
     transform: rotate(0deg);
@@ -654,11 +650,12 @@ header {
   }
 }
 @keyframes pulse {
-  0%, 100% {
+  0%,
+  100% {
     opacity: 1;
   }
   50% {
-    opacity: .5;
+    opacity: 0.5;
   }
 }
 
@@ -670,7 +667,7 @@ header {
     padding: 0 20px;
   }
   .search-btn {
-    padding: 15px;   
+    padding: 15px;
     margin-top: 0;
     min-width: auto;
   }
@@ -688,13 +685,13 @@ header {
     border-radius: 0;
     overflow-y: scroll;
     display: block;
-  }  
+  }
   .modal-grid {
     display: flex;
     flex-direction: column;
     height: auto;
-    overflow: visible;    
-  } 
+    overflow: visible;
+  }
   .close-btn {
     position: fixed;
     top: 70px;
@@ -713,13 +710,14 @@ header {
     right: max(30px, env(safe-area-inset-right));
     top: max(70px, env(safe-area-inset-top));
   }
-  .modal-left, .modal-right {
+  .modal-left,
+  .modal-right {
     height: 100%;
     overflow-y: scroll;
     height: auto;
     padding: 25px;
     padding-top: 40px;
-  } 
+  }
   .modal-right {
     border-left: none;
     border-top: 1xp solid var(--border-color);
@@ -736,6 +734,17 @@ header {
     flex-direction: row;
   }
 
+  .hero-section {
+    min-height: 100dvh;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding-top: 40px;
+    
+  }
+
   .theme-toggle-btn {
     background: var(--card-bg);
     border: 3px solid var(--border-color);
@@ -750,13 +759,13 @@ header {
     justify-content: center;
 
     box-shadow: 0 4px 6px var(--shadow-color);
-    transition: all .3s cubic-bezier(.25,.8,.25,1);
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
 
     color: var(--text-main);
   }
 
   .vegantoggle-btn {
-   background: var(--card-bg);
+    background: var(--card-bg);
     border: 3px solid var(--border-color);
     border-radius: 50%;
     width: 45px;
@@ -766,8 +775,8 @@ header {
     align-items: center;
     justify-content: center;
     box-shadow: 0 4px 6px var(--shadow-color);
-    transition: all .3s cubic-bezier(.25,.8,.25,1);
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
 
     color: var(--text-main);
-}
+  }
 }
