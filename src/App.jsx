@@ -14,6 +14,7 @@ import { MOCK_RECIPES } from "./data/mockRecipes";
 import useVeganStore from "./store/useVeganStore";
 import { analyzeRecipesForVegan } from "./services/geminiService.jsx";
 import { getSmartSearchKeywords } from "./services/aiSearchService";
+import Logo from "./components/Logo.jsx";
 
 function App() {
   //AI 相關state
@@ -442,7 +443,7 @@ function App() {
       <div className="hero-section">
         <header>
           <h1 onClick={onResetWrapper} title="Back to Home">
-            Hi refrigerator!
+           <Logo />
           </h1>
           <p>What's in fridge? Let's find some recipes!</p>
         </header>

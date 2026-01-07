@@ -161,7 +161,7 @@ header {
   padding: 20px;
   text-align: center;
   /* GSAP預計做淡出 */
-  opacity: 1;
+  /* opacity: 1; */
   /* margin-top: 20px; */
 }
 /* 標題與搜尋區 */
@@ -316,7 +316,7 @@ h1 {
 .modal-content {
   background: var(--card-bg);
   width: 100%;  
-  height: 90vh; /* 電腦版：固定高度 */  
+  height: 90dvh; /* 電腦版：固定高度 */  
   border-radius: var(--radius-lg);
   box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
   position: relative;
