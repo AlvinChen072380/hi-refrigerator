@@ -1,3 +1,4 @@
+
 * {
   margin: 0;
   padding: 0;
@@ -13,10 +14,12 @@
   --accent-blue: #3498db;
   --danger-color: #e74c3c;
   /* light model */
-  --bg-color: #f8f9fa;
-  --card-bg: #ffffff;
+  --bg-color: #f5f5f5;
+  --bg-color-tech:#efefef;
+  --card-bg: #F8f8FF;
   --text-main: #2c3e50;
   --text-secondary: #7f8c8d;
+  --text-tech:#a8482b;
   --border-color: #eee;
   --shadow-color: rgba(0, 0, 0, 0.08);
   --modal-overlay: rgba(0, 0, 0, 0.6);
@@ -42,9 +45,11 @@
 
   /* background & text dark model */
   --bg-color: #121212;
+  --bg-color-tech:#464545;
   --card-bg: #1e1e1e;
   --text-main: #e0e0e0;
-  --text-secondary: #a0a0a0;
+  --text-secondary: #555353;
+  --text-tech:#f8cdb4;
   --border-color: #333333;
   --input-bg: #2d2d2d;
 
@@ -54,60 +59,15 @@
   --accent-blue: #5dade2;
 }
 
-.app-nav {
-  position: absolute;
-  top: 20px;
-  right: 20px;
-  z-index: 100;
-  display: flex;
-}
-
-.theme-toggle-btn {
-  background: var(--card-bg);
-  border: 3px solid var(--border-color);
-  border-radius: 50%;
-  width: 45px;
-  height: 45px;
-  cursor: pointer;
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  box-shadow: 0 4px 6px var(--shadow-color);
-  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-
+body {
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  background-color: var(--bg-color);
   color: var(--text-main);
-}
+  padding: 0;
+  margin: 0;
+  line-height: 1.6;
 
-.vegantoggle-btn {
-  background: var(--card-bg);
-  border: 3px solid var(--border-color);
-  border-radius: 50%;
-  width: 45px;
-  height: 45px;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  box-shadow: 0 4px 6px var(--shadow-color);
-  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-
-  color: var(--text-main);
-}
-
-.theme-toggle-btn:hover {
-  transform: rotate(360deg);
-  box-shadow: 0 6px 12px var(--shadow-color);
-  border: var(--primary-color);
-  color: var(--primary-color);
-}
-.theme-toggle-btn:active {
-  transform: scale(0.95);
-}
-
-.app-container {
-  min-height: 100dvh; /* Dynamic Viewport Height */
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 html,
@@ -125,23 +85,112 @@ html::--webkit-scrollbar,
   display: none;
 }
 
-body {
-  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-  background-color: var(--bg-color);
-  color: var(--text-main);
-  padding: 0;
-  margin: 0;
-  line-height: 1.6;
 
-  transition: background-color 0.3s ease, color 0.3s ease;
+/* 通用組件與頁面佈局 */
+
+.app-nav {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  z-index: 100;
+  display: flex;
 }
 
+.theme-toggle-btn,
+.vegantoggle-btn,
+.info-button {
+  background: var(--card-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 50%;
+  width: 45px;
+  height: 45px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 6px var(--shadow-color);
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+  color: var(--text-main);
+}
+
+.theme-toggle-btn:hover {
+  transform: rotate(360deg);
+  box-shadow: 0 6px 12px var(--shadow-color);
+  border: var(--primary-color);
+  color: var(--primary-color);
+}
+.theme-toggle-btn:active, .vegantoggle-btn:active {
+  transform: scale(0.95);
+}
+
+.info-container {
+  padding-right: 12px;
+}
+.info-style { 
+  color: var(--primary-hover);
+}
+
+/* loading & error */
+.loading-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 40px;
+  color: var(--primary-color);
+}
+
+.spinner {
+  width: 40px;
+  height: 40px;
+  border: 4px solid rgba(230, 126, 34, 0.2);
+  border-top: 4px solid var(--primary-color);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin-bottom: 15px;
+}
+.loading-text {
+  font-weight: bold;
+  font-size: 1.1rem;
+  animation: pulse 3s ease-in-out infinite;
+  color: var(--primary-color);
+}
 .error-msg {
   text-align: center;
   color: red;
   font-size: 1.2rem;
 }
+.error-text {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: 400;
+  font-size: 1rem;
+  color: var(--text-main);
+}
 
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+@keyframes pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+/* Hero & Header */
+.app-container {
+  min-height: 100dvh; /* Dynamic Viewport Height */
+}
 .hero-section {
   min-height: 100dvh;
   width: 100%;
@@ -158,7 +207,7 @@ body {
 }
 
 header {
-  padding: 20px;
+  padding: 40px 20px 20px 20px;
   text-align: center;
 }
 /* 標題與搜尋區 */
@@ -184,7 +233,7 @@ header {
   top: 22px;
   margin-left: 10px;
 }
-
+/* search box */
 .search-box {
   display: flex;
   gap: 10px;
@@ -256,7 +305,6 @@ header {
   background: var(--card-bg);
   box-shadow: 0 10px 30px var(--shadow-color);
   transition: var(--transition-medium);
-  /* GSAP 標記 後續使用 .stagger-card 來抓取卡片 */
   opacity: 0;
   visibility: hidden;
   cursor: pointer;
@@ -300,11 +348,11 @@ header {
   color: white;
 }
 
-/* Modal RWD */
+/* Recipe Modal (標準食譜 Modal) */
 .modal {
   display: block;
   position: fixed;
-  z-index: 1000;
+  z-index: 999;
   left: 0;
   top: 0;
   width: 100%;
@@ -314,7 +362,7 @@ header {
   backdrop-filter: blur(8px);
   opacity: 1; /* GSAP 淡入預設 */
   overflow: auto;
-
+  pointer-events: auto;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -325,43 +373,50 @@ header {
   width: 100%;
   max-width: 1000px;
   margin: auto;
+  z-index: 1000;
+  transition: transform 0.3s ease-out;
+  pointer-events: auto;
 }
 /* Modal 內容區塊  */
 .modal-content {
   background: var(--card-bg);
   width: 100%;
-  height: 90dvh; /* 電腦版：固定高度 */
+  height: 85dvh; /* 電腦版：固定高度 */
   border-radius: var(--radius-lg);
   box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
   position: relative;
   overflow: hidden; /* 切掉圓角外溢 */
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   color: var(--text-main);
+  overflow-y: auto;
 }
 
-/* 關閉按鈕(X) */
 .close-btn {
-  position: absolute;
-  top: 20px;
-  right: 20px;
-  font-size: 2.5rem;
+  position: absolute;  
+  top: -50px; 
+  right: 0;  
+  font-size: 2rem;
   line-height: 1;
-  color: white; /* 為了配合圖片背景，之後可以調整 */
-  z-index: 1005;
-  cursor: pointer;
-  background: rgba(0, 0, 0, 0.3); /* 半透明圓底 */
+  color: white; 
+  z-index: 1010; /* ✅ 確保比 content 高 */
+  cursor: pointer;  
+  background: rgba(255, 255, 255, 0.2); /* 輕微的半透明底，增加可見度 */
+  backdrop-filter: blur(4px);
   width: 40px;
   height: 40px;
-  border-radius: 50%;
-  text-align: center;
-  transition: color 0.3s;
+  border-radius: 50%;  
   display: flex;
   align-items: center;
   justify-content: center;
+  transition: all 0.2s ease;
+  border: 1px solid rgba(255,255,255,0.3);
 }
+
 .close-btn:hover {
   background: var(--danger-color);
+  transform: rotate(90deg); /* 增加一點互動趣味 */
+  border-color: var(--danger-color);
 }
 /* 2.雙欄 grid 系統 */
 .modal-grid {
@@ -371,11 +426,16 @@ header {
   overflow: hidden;
 }
 
+/* --- Mobile Tab 切換按鈕 (預設隱藏) --- */
+.mobile-tabs {
+  display: none; /* Desktop 不顯示 */
+}
+
 /* 3.左欄樣式 */
 .modal-left {
   padding: 40px;
   overflow-y: auto;
-  background-color: var(--card-bg);
+  background-color: var(--card-bg);  
 }
 .modal-left h2 {
   display: flex;
@@ -393,6 +453,7 @@ header {
   object-fit: cover;
   border-radius: var(--radius-md);
   margin-bottom: 25px;
+  background-color: #eee; /* Loading placeholder color */
 }
 /* 食譜指示文字排版 */
 .instructions {
@@ -403,6 +464,25 @@ header {
   text-align: justify;
   margin-top: 10px;
 }
+.instructions-container {
+  overflow-y: visible; /* 內容本身隨父層滾動 */
+}
+.yt-link {
+  display: inline-block;
+  margin-top: 20px;
+  color: var(--danger-color);
+  text-decoration: none;
+  font-weight: bold;
+  border: 1px solid var(--danger-color);
+  padding: 10px 20px;
+  border-radius: 50px;
+  transition: background-color 0.3s, color 0.3s;
+}
+.yt-link:hover {
+  background: var(--danger-color);
+  color: white;
+}
+
 
 /* 4.右欄(採買清單)樣式*/
 .modal-right {
@@ -422,27 +502,17 @@ header {
   font-size: 1rem;
   font-weight: 400;
 }
+.modal-right p.sub-text {
+  margin-left: 0; /* 修正原本 p 的 margin */
+  margin-bottom: 20px;
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+}
 .sub-text {
   color: var(--text-secondary);
   font-size: 0.9rem;
   margin-bottom: 20px;
 }
-.yt-link {
-  display: inline-block;
-  margin-top: 20px;
-  color: var(--danger-color);
-  text-decoration: none;
-  font-weight: bold;
-  border: 1px solid var(--danger-color);
-  padding: 10px 20px;
-  border-radius: 50px;
-  transition: background-color 0.3s, color 0.3s;
-}
-.yt-link:hover {
-  background: var(--danger-color);
-  color: white;
-}
-
 /* 食材清單樣式 */
 .ingredient-list {
   list-style: none;
@@ -465,11 +535,12 @@ header {
   transition: border-color 0.3s, background-color 0.3s,
     transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
-
 .ingredient-list li:hover {
   border-color: var(--accent-blue);
   transform: translateX(5px);
 }
+
+
 /* 清單完成狀態 */
 .ingredient-list li.completed {
   background-color: var(--bg-color);
@@ -479,14 +550,8 @@ header {
   opacity: 0.5;
   text-decoration: line-through;
 }
-/* .checkbox-icon {
-  opacity: .6;
-  margin-right: 10px;
-  font-size: 1.1rem;
-  cursor: pointer; 
-} */
 
-/* --- 自訂 Checkbox 樣式 --- */
+/* --- Checkbox 樣式 --- */
 .custom-checkbox {
   width: 22px;
   height: 22px;
@@ -500,7 +565,6 @@ header {
   flex-shrink: 0;
   position: relative;
 }
-
 /* 勾勾符號 (預設隱藏) */
 .custom-checkbox::after {
   content: "✓";
@@ -518,21 +582,19 @@ header {
   border-color: var(--primary-color);
   box-shadow: 0 0 8px rgba(230, 126, 34, 0.4); /* 發光效果 */
 }
-
 .ingredient-list li.completed .custom-checkbox::after {
   opacity: 1;
   transform: scale(1);
 }
-
-/* Hover 效果 */
 .ingredient-list li:hover .custom-checkbox {
   border-color: var(--primary-color);
 }
 
+/* Actions */
 .list-item {
   color: var(--text-main);
   font-size: 0.85em;
-  color: #666;
+  color: var(--text-main);
 }
 .list-item:hover {
   color: var(--primary-color);
@@ -542,7 +604,7 @@ header {
   flex: 1;
   display: flex;
   align-items: center;
-  cursor: pointer;
+  cursor: pointer;  
 }
 .delete-btn {
   background: transparent;
@@ -559,7 +621,6 @@ header {
   transform: scale(1.2);
   color: var(--danger-color);
 }
-
 .restore-btn {
   margin-top: auto;
   padding: 15px;
@@ -607,60 +668,299 @@ header {
   border-color: transparent;
 }
 
-/* loading & error */
-.loading-container {
+/* --- AI 相關樣式 --- */
+
+/* AI Tags */
+.tags-container {
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: 40px;
-  color: var(--primary-color);
+  gap: 8px;
+  margin-bottom: 10px;
+  flex-wrap: wrap;
+}
+.ai-tag {
+  background: #e0f2fe;
+  color: #0369a1;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 0.8rem;
 }
 
-.spinner {
-  width: 40px;
-  height: 40px;
-  border: 4px solid rgba(230, 126, 34, 0.2);
-  border-top: 4px solid var(--primary-color);
-  border-radius: 50%;
-  animation: spin 1s linear infinite;
+/* AI 按鈕區 */
+.ai-action-area {
+  margin: 15px 0;
+}
+
+.ai-btn {
+  background: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
+  color: white;
+  border: none;
+  padding: 10px 20px;
   margin-bottom: 15px;
-}
-.loading-text {
-  font-weight: bold;
-  font-size: 1.1rem;
-  animation: pulse 3s ease-in-out infinite;
-  color: var(--primary-color);
-}
-.error-text {
+  border-radius: 8px;
+  cursor: pointer;
   display: flex;
-  justify-content: center;
   align-items: center;
-  font-weight: 400;
+  gap: 8px;
+  font-weight: bold;
+  box-shadow: 0 4px 15px rgba(168, 85, 247, 0.3);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.ai-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(168, 85, 247, 0.4);
+}
+
+.ai-btn:disabled {
+  cursor: wait;
+  opacity: 0.8;
+}
+
+.ai-btn.active {
+  background: #64748b; /* 切換回英文時的灰色 */
+  box-shadow: none;
+}
+
+.ai-error {
+  color: #ef4444;
+  font-size: 0.9rem;
+}
+
+/* 營養標示盒 */
+.nutrition-box {
+  background: #f8fafc;
+  padding: 15px;
+  border-radius: 8px;
+  border: 1px solid #e2e8f0;
+  margin-bottom: 20px;
+}
+
+.nutrition-title {
+  margin: 0 0 10px 0;
+  color: #475569;
   font-size: 1rem;
+}
+
+.nutrition-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 10px;
+  text-align: center;
+}
+
+.nutri-value {
+  font-size: 1.2rem;
+  font-weight: bold;
+}
+.val-cal { color: #ea580c; }
+.val-pro { color: #0ea5e9; }
+.val-carb { color: #22c55e; }
+
+.nutri-label {
+  font-size: 0.8rem;
+  color: #64748b;
+}
+
+.nutrition-meta {
+  margin-top: 10px;
+  font-size: 0.9rem;
+  color: #475569;
+  display: flex;
+  gap: 15px;
+}
+
+/* AI 步驟樣式 */
+.ai-desc {
+  font-style: italic;
+  color: #555;
+  margin-bottom: 15px;
+  border-left: 4px solid #ddd;
+  padding-left: 10px;
+}
+
+.step-item {
+  margin-bottom: 15px;
+  display: flex;
+  gap: 10px;
+}
+
+.step-number {
+  background: #f1f5f9;
+  color: #64748b;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.8rem;
+  flex-shrink: 0;
+}
+
+.action-tag {
+  background: #fff7ed;
+  color: #c2410c;
+  border: 1px solid #ffedd5;
+  font-size: 0.75rem;
+  padding: 2px 6px;
+  border-radius: 4px;
+  margin-right: 6px;
+}
+
+/* Tech Modal (獨立功能 - 與 Recipe Modal 分離) */
+/* Tech-stock css */
+
+/* 1. 修正遮罩層 (原本您的 CSS 寫的是 .modal，但 TSX 用的是 .modal-overlay) */
+.modal-overlay-tech {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.6); /* 使用半透明黑 */
+  -webkit-backdrop-filter: blur(4px);
+  backdrop-filter: blur(4px);            /* 毛玻璃效果 */ 
+  z-index: 999;                          /* 層級要高 */
+  cursor: pointer;
+}
+
+/* 2. 定位容器 (讓 Modal 居中) */
+.modal-wrapper-tech {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  z-index: 1000;         /* 比遮罩更高 */
+  pointer-events: none;  /* 讓點擊穿透到遮罩 */  
+}
+
+/* 3. 覆蓋原本的 .modal-content 設定 (針對通用 Modal 微調) */
+/* 注意：這會與您原本的 .modal-content 共用部分樣式，但我們補強它 */
+.modal-content-tech {
+  /* 確保背景色與點擊恢復 */
+  background-color: var(--card-bg, #ffffff); 
+  pointer-events: auto; 
+  display: flex;
+  flex-direction: row;
+  max-height: 68vh; /* 避免太長 */ 
+  /* 確保有陰影與圓角 */
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+  border-radius: 16px;    
+}
+
+/* 4. 補上缺失的 Header 與 Body 樣式 */
+.modal-header-tech {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  padding: 40px 0px 20px 24px;  
+  writing-mode: sideways-rl;      
+}
+
+.modal-title-tech {
+  font-size: 3rem;
+  font-weight: 200;
+  margin: 0;
+  color: var(--primary-color);
+  letter-spacing: 0.5rem; 
+  white-space: nowrap;
+  overflow: hidden;
+  max-height: 100%;
+}
+
+.modal-body-tech {
+  padding:5px 24px 24px 0px;  
+  overflow-y: auto;
   color: var(--text-main);
+  line-height: 1.6;
+}
+.modal-body-tech::-webkit-scrollbar {
+  display: none;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
 }
 
-@keyframes spin {
-  0% {
-    transform: rotate(0deg);
-  }
-  100% {
-    transform: rotate(360deg);
-  }
+/* 5. 補上缺失的寬度工具 Class (取代 Tailwind) */
+.max-w-sm { max-width: 24rem; }
+.max-w-md { max-width: 28rem; }
+.max-w-lg { max-width: 32rem; }
+.max-w-xl { max-width: 36rem; }
+.max-w-2xl { max-width: 42rem; }
+.max-w-\[95vw\] { max-width: 95vw; } /* 處理特殊命名 */
+
+
+/* modal content css */
+
+.modal-desc {
+  display: flex;
+  flex-direction: column;  
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-size: 1rem;
 }
-@keyframes pulse {
-  0%,
-  100% {
-    opacity: 1;
-  }
-  50% {
-    opacity: 0.5;
-  }
+.modal-desc-ul {
+  margin-top: 5px;  
 }
 
-/* 5.RWD mobile */
+.modal-button-wrapper {
+  display: flex;
+  align-items: end;
+  justify-content: flex-end;
+  margin-top: 20px;
+}
+
+.modal-button-style {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font:bold;
+  font-size: 1.1rem;
+  color: #fafafa;
+  padding: 8px 16px 8px 16px;
+  background-color: var(--primary-color);
+  border: 1.5px solid #f5f5f5;
+  border-radius: 10px; 
+  box-shadow: 0 10px 10px -2px rgba(250, 173, 121, 0.25);
+}
+.modal-button-style:hover {
+  background-color: var(--primary-hover);
+  transition: .3s;
+  cursor: pointer; 
+}
+
+.first-desc {    
+  margin-top: 1rem;
+  padding: 10px;
+  line-height: 1.8;
+}
+
+.li-style-test {
+  border: 1px solid var(--danger-color);
+  border-radius: 10px;
+  margin-top: 1rem;
+  padding: 10px;
+  line-height: 1.8;
+  background-color: var(--bg-color-tech);
+}
+
+.li-style-test > h4 {
+  padding: 10px 0 10px 0;
+  font-size: 1.2rem; 
+  color: var(--text-main); 
+}
+.li-style-test > p > strong {
+  font-weight: 600;
+  color: var(--text-tech);
+}
+
+
+
+/* --- RWD 手機版樣式 (Max-width: 768px) --- */
 @media (max-width: 768px) {
+  
   .search-box {
     flex-direction: column;
     gap: 15px;
@@ -674,23 +974,45 @@ header {
   .search-input {
     width: 100%;
   }
+
+  .app-nav {
+    position: absolute;
+    top: 20px;
+    right: 5px;
+    z-index: 100;
+    display: flex;
+    flex-direction: row;
+  }
+  .theme-toggle-btn {  
+    margin-right: 10px;    
+  }
+  .logo-text {
+    font-size: 1.9rem;    
+  }
+  .leaf-icon {   
+    top: 15px;   
+  }
+
+/* Recipe Modal Mobile */  
   .modal-wrapper {
     width: 100%;
     height: 100%;
     max-width: none;
   }
   .modal-content {
-    height: 100dvh;
+    height: 90dvh;
     max-height: 100dvh;
-    border-radius: 0;
+    border-radius: var(--radius-lg);
     overflow-y: scroll;
     display: block;
+    pointer-events: auto;
   }
   .modal-grid {
     display: flex;
     flex-direction: column;
     height: auto;
     overflow: visible;
+    border-radius: var(--radius-lg);
   }
   .close-btn {
     position: fixed;
@@ -706,83 +1028,78 @@ header {
     display: flex;
     align-items: center;
     justify-content: center;
-
     right: max(30px, env(safe-area-inset-right));
     top: max(70px, env(safe-area-inset-top));
   }
-  .modal-left,
-  .modal-right {
-    height: 100%;
-    overflow-y: scroll;
-    height: auto;
-    padding: 25px;
-    padding-top: 40px;
-  }
-  .modal-right {
-    border-left: none;
-    border-top: 1xp solid var(--border-color);
-    background: var(--bg-color);
-    padding-bottom: 50px;
-  }
 
-  .app-nav {
-    position: absolute;
-    top: 20px;
-    right: 5px;
-    z-index: 100;
+  /* 顯示 Recipe Tab 按鈕列 */
+  .mobile-tabs {
     display: flex;
-    flex-direction: row;
-  }
-
-  .hero-section {
-    min-height: 100dvh;
+    justify-content: center;
+    gap: 15px;
+    padding: 20px 0 20px 0;
+    border-bottom: 1px solid var(--border-color);
+    margin-bottom: 20px;
+    background: var(--card-bg); /* 吸附頂部時背景不透明 */
     width: 100%;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    padding-top: 40px;
   }
-  .theme-toggle-btn {
-    background: var(--card-bg);
-    border: 3px solid var(--border-color);
-    border-radius: 50%;
-    width: 45px;
-    height: 45px;
+  .tab-btn {
+    padding: 8px 24px;
+    border-radius: 10px;
+    border: 1px solid transparent;
+    background: #f1f5f9;
+    color: #64748b;
+    font-weight: bold;
+    font-size: 0.95rem;
+    transition: all 0.3s;
     cursor: pointer;
-    margin-right: 10px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    box-shadow: 0 4px 6px var(--shadow-color);
-    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-    color: var(--text-main);
   }
-  .vegantoggle-btn {
-    background: var(--card-bg);
-    border: 3px solid var(--border-color);
-    border-radius: 50%;
-    width: 45px;
-    height: 45px;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    box-shadow: 0 4px 6px var(--shadow-color);
-    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-    color: var(--text-main);
-  }
-  .logo-text {
-    font-size: 1.9rem;
-    color: var(--primary-color);
-    margin-bottom: 10px;
-    letter-spacing: -1px;
-    position: relative;
+  .tab-btn.active {
+    background: var(--primary-color);
+    color: white;
+    box-shadow: 0 4px 10px rgba(228, 135, 60, 0.3);
   }
 
-  .leaf-icon {
-    position: absolute;
-    top: 15px;
-    margin-left: 4px;
+  /* 根據 React State 控制顯示隱藏 */
+  .modal-left, .modal-right {
+    display: none; 
+    padding: 20px; 
+    height: auto; 
+    overflow: visible;
+  }  
+  .modal-left.active-content {
+    display: block;
+  }  
+  .modal-right.active-content {
+    display: block; 
+  }  
+  /* 手機版調整圖片高度 */
+  .modal-img {
+    aspect-ratio: 16/9;
   }
 }
+/* Tech Modal Mobile (獨立設定) */
+@media (max-width: 768px) {   
+
+  .modal-title-tech {
+    font-size: 2rem; 
+    font-weight: 400; 
+  }
+  .modal-header-tech {  
+    padding: 40px 5px 20px 13px;        
+  }
+  .first-desc {    
+    margin-top: 1rem;
+    padding: 10px 0px 0px 5px;
+    line-height: 1.8;    
+  }
+}
+/* Utilities */
+.max-w-sm { max-width: 24rem; }
+.max-w-md { max-width: 28rem; }
+.max-w-lg { max-width: 32rem; }
+.max-w-xl { max-width: 36rem; }
+.max-w-2xl { max-width: 42rem; }
+.max-w-\[95vw\] { max-width: 95vw; }
+
+
