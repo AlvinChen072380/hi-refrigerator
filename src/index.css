@@ -1051,8 +1051,20 @@ header {
     color: #64748b;
     font-weight: bold;
     font-size: 0.95rem;
-    transition: all 0.3s ease-in-out;
+    /* transition: all 0.3s ease-in-out; */
     cursor: pointer;
+
+    /* 💡 關鍵修正 1：移除手機原生的點擊高亮閃爍與預設外框 */
+    -webkit-tap-highlight-color: transparent;
+    outline: none;
+
+    /* 💡 關鍵修正 2：給予基礎的透明陰影，防止切換瞬間重繪跳動 */
+    box-shadow: 0 4px 10px rgba(228, 135, 60, 0); 
+
+    /* 💡 關鍵修正 3：明確指定 transition 的屬性，取代 'all' */
+    transition: background 0.3s ease-in-out, 
+                color 0.3s ease-in-out, 
+                box-shadow 0.3s ease-in-out;
   }
   .tab-btn.active {
     background: var(--primary-color);
