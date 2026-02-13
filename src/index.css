@@ -1051,7 +1051,7 @@ header {
     color: #64748b;
     font-weight: bold;
     font-size: 0.95rem;
-    transition: all 0.3s;
+    transition: all 0.3s ease-in-out;
     cursor: pointer;
   }
   .tab-btn.active {
