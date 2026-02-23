@@ -10,11 +10,11 @@ Generative AI & Prompt Engineering: Leveraged Google Gemini API to translate nat
 
 Secure Serverless Architecture: Eliminated client-side API key exposure by abstracting Gemini API calls into Vercel Serverless Functions (Node.js), effectively establishing a secure Proxy Server and handling CORS configurations.
 
-Data Normalization & Custom Hooks: Abstracted complex fetching logic into custom hooks (useRecipes, useTheme). Built helper functions to sanitize and flatten messy external data (e.g., mapping strIngredient1...20 from TheMealDB into clean arrays).
+Data Normalization & Custom Hooks: Abstracted complex fetching logic into custom hooks (`useRecipes`, `useTheme`). Built helper functions to sanitize and flatten messy external data (e.g., mapping`strIngredient1...20` from TheMealDB into clean arrays).
 
-Advanced UX & GSAP Animations: Orchestrated complex staggered entry animations using GSAP Timelines, utilizing clearProps to prevent animation residue. Addressed mobile-specific layout issues, including notch safe-areas (env(safe-area-inset)) and preventing modal scroll-penetration.
+Advanced UX & GSAP Animations: Orchestrated complex staggered entry animations using GSAP Timelines, utilizing `clearProps` to prevent animation residue. Addressed mobile-specific layout issues, including notch safe-areas (`env(safe-area-inset)`) and preventing modal scroll-penetration.
 
-PWA & Dynamic SEO: Configured vite-plugin-pwa for an installable, native-like mobile experience with offline capabilities. Integrated react-helmet-async for dynamic Open Graph (OG) tags and title management to ensure every recipe is perfectly indexed and shareable.
+PWA & Dynamic SEO: Configured `vite-plugin-pwa` for an installable, native-like mobile experience with offline capabilities. Integrated `react-helmet-async` for dynamic Open Graph (OG) tags and title management to ensure every recipe is perfectly indexed and shareable.
 
 🛠 Tech Stack
 Core Architecture & Backend
@@ -23,11 +23,11 @@ React 18 & Vite: Functional component-based SPA with lightning-fast HMR.
 
 Vercel Serverless Functions: Node.js runtime for secure API routing and hiding sensitive credentials.
 
-Google Gemini API (gemini-1.5-flash): Core engine for semantic search and dietary logic processing.
+Google Gemini API (`gemini-1.5-flash`): Core engine for semantic search and dietary logic processing.
 
 State Management & Logic
 
-React Hooks & Custom Hooks: Extensive use of useState, useEffect, and useRef (for DOM manipulation and GSAP scoping).
+React Hooks & Custom Hooks: Extensive use of `useState`, `useEffect`, and `useRef` (for DOM manipulation and GSAP scoping).
 
 LocalStorage: Client-side data persistence for user themes (Dark Mode) and shopping lists.
 
@@ -39,13 +39,13 @@ CSS3 Custom Properties: Built a scalable Design System leveraging CSS variables 
 
 GSAP (GreenSock Animation Platform): High-performance timeline animations and micro-interactions.
 
-Modern CSS Layouts: Flexbox/Grid architecture with custom pseudo-elements (::before/::after) for high-quality custom UI components like checkboxes.
+Modern CSS Layouts: Flexbox/Grid architecture with custom pseudo-elements (`::before/::after`) for high-quality custom UI components like checkboxes.
 
 Data & Tooling
 
 TheMealDB API: External RESTful API for recipe data and imagery.
 
-PWA & SEO Plugins: vite-plugin-pwa and react-helmet-async.
+PWA & SEO Plugins: `vite-plugin-pwa` and `react-helmet-async`.
 
 Git, GitHub & ESLint: Version control and strict code quality enforcement.
 
