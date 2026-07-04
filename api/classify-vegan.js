@@ -62,14 +62,6 @@ export default async function handler(req, res) {
       };
     });
 
-    const model = genAI.getGenerativeModel({
-      model: "gemini-2.5-flash", 
-      generationConfig: { 
-        responseMimeType: "application/json",
-        responseSchema: veganSchema
-      }
-    });
-
     // 2. Prompt 優化：給予 AI 更明確的權限去判斷 "缺少成分" 的食譜
     const prompt = `
       You are a Strict Vegan Filter. Analyze the provided recipes and identify which ones are Vegan-friendly.
@@ -88,17 +80,45 @@ export default async function handler(req, res) {
       ${JSON.stringify(simplifiedRecipes)}
     `;
 
-    const result = await model.generateContent(prompt);
-    const responseText = result.response.text();
+    // 3. 實作重試與模型降級備援機制 (Tiered Fallback)
+    let parsedData = null;
+    let currentModelName = "gemini-2.5-flash"; // 預設主模型
+    let attempt = 1;
+    const maxRetries = 2;
 
-    console.log("AI Raw Output:", responseText); 
+    while (attempt <= maxRetries) {
+      try {
+        const model = genAI.getGenerativeModel({
+          model: currentModelName, 
+          generationConfig: { 
+            responseMimeType: "application/json",
+            responseSchema: veganSchema
+          }
+        });
 
-    // 3. 解析 JSON (設定 responseSchema 後，模型必定回傳符合結構的 JSON)
-    let parsedData;
-    try {
+        const result = await model.generateContent(prompt);
+        const responseText = result.response.text();
+
+        console.log(`[Vegan Filter - ${currentModelName}] AI Raw Output:`, responseText); 
+
+        // 解析 JSON (設定 responseSchema 後，模型必定回傳符合結構的 JSON)
         parsedData = JSON.parse(responseText);
-    } catch (e) {
-        throw new Error("Invalid JSON format from AI");
+        break; // 成功解析，跳出迴圈
+
+      } catch (err) {
+        attempt++;
+        console.warn(`[嘗試 ${attempt - 1}] 素食分析失敗 (使用模型 ${currentModelName}):`, err.message);
+
+        if (attempt > maxRetries) {
+          throw new Error("Invalid JSON format from AI or API failed after retries.");
+        }
+
+        // 遇到錯誤，暫停 1 秒鐘
+        await new Promise(res => setTimeout(res, 1000));
+
+        // 降級備援：如果主模型 (可能是 429 或 503) 失敗，切換至更輕量的 lite 模型
+        currentModelName = "gemini-2.5-flash-lite";
+      }
     }
 
     const { safeIds } = parsedData;

@@ -45,14 +45,6 @@ export default async function handler(req, res) {
         return res.status(400).json({ error: 'Search term is required' });
     }
 
-    const model = genAI.getGenerativeModel({
-      model: "gemini-2.5-flash",
-      generationConfig: {
-        responseMimeType: "application/json",
-        responseSchema: searchSchema
-      }
-    });
-    
     // 【修正點 2】：Prompt 中的變數必須與上方定義的 const { searchTerm } 一致
     const prompt = `
       You are a culinary search assistant.
@@ -67,11 +59,46 @@ export default async function handler(req, res) {
       User Input: "${searchTerm}"
     `;
 
-    const result = await model.generateContent(prompt);
-    const responseText = result.response.text();
-    
-    // 設定 responseSchema 後，必定回傳合法 JSON，無需 Regex
-    const analysisResult = JSON.parse(responseText);
+    // 實作重試與模型降級備援機制 (Tiered Fallback)
+    let analysisResult = null;
+    let currentModelName = "gemini-2.5-flash"; // 預設主模型
+    let attempt = 1;
+    const maxRetries = 2;
+
+    while (attempt <= maxRetries) {
+      try {
+        const model = genAI.getGenerativeModel({
+          model: currentModelName,
+          generationConfig: {
+            responseMimeType: "application/json",
+            responseSchema: searchSchema
+          }
+        });
+
+        const result = await model.generateContent(prompt);
+        const responseText = result.response.text();
+        
+        console.log(`[Smart Search - ${currentModelName}] AI Raw Output:`, responseText); 
+
+        // 設定 responseSchema 後，必定回傳合法 JSON，無需 Regex
+        analysisResult = JSON.parse(responseText);
+        break; // 成功解析，跳出迴圈
+
+      } catch (err) {
+        attempt++;
+        console.warn(`[嘗試 ${attempt - 1}] 搜尋分析失敗 (使用模型 ${currentModelName}):`, err.message);
+
+        if (attempt > maxRetries) {
+          throw new Error("Invalid JSON format from AI or API failed after retries.");
+        }
+
+        // 遇到錯誤，暫停 1 秒鐘
+        await new Promise(res => setTimeout(res, 1000));
+
+        // 降級備援：如果主模型失敗，切換至更輕量的 lite 模型
+        currentModelName = "gemini-2.5-flash-lite";
+      }
+    }
 
     return res.status(200).json(analysisResult);
 

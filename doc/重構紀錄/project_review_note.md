@@ -36,6 +36,11 @@
 ### 🚨 痛點四：AI JSON 解析的脆弱性
 - **說明**：在 `api/enrich-recipe.js` 中，你透過 Regex `text.match(/\{[\s\S]*\}/)` 來硬抓 Gemini 回傳的 JSON。
 - **為何是問題**：LLM 的輸出有時候具有隨機性。如果不小心回傳了 Markdown 的 ```json ... ``` 區塊，或者包含多個括號，正則表達式可能會失效，導致 `JSON.parse` 噴出 SyntaxError，讓你的 API 變成 500 Server Error。
+*(備註：我們已經在後續導入 `responseSchema` 解決了這個問題)*
+
+### 🚨 痛點五：缺少 UX 狀態回饋 (Missing Loading State)
+- **說明**：當使用者在首頁進行「智慧搜尋」（例如輸入：冰箱剩番茄）時，因為需等待 AI 分析，API 會有 1~3 秒的延遲。但目前畫面上只會顯示一個固定 emoji，完全沒有任何 Loading 動畫或載入提示。
+- **為何是問題**：在現代網頁設計中，超過 0.5 秒的無回饋停頓，都會讓使用者誤以為「系統當機了」或「沒按到按鈕」進而瘋狂連點。這不僅破壞體驗，還可能導致 API 被重複呼叫 (Race Condition)。未來必須補上 Spinner 或 Skeleton UI。
 
 ---
 
