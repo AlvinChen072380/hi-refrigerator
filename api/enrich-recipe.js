@@ -1,7 +1,11 @@
 /* eslint-env node */
 import { GoogleGenerativeAI, SchemaType } from "@google/generative-ai";
-// 引入官方 KV 套件
-import { kv } from "@vercel/kv";
+// 引入官方 KV 套件 (Vercel KV 已棄用，改為官方建議的 Upstash Redis)
+import { Redis } from '@upstash/redis';
+const kv = new Redis({
+  url: process.env.KV_REST_API_URL,
+  token: process.env.KV_REST_API_TOKEN,
+});
 // 1. 【新增】確保本地環境能讀取 .env
 import dotenv from 'dotenv';
 dotenv.config();
