@@ -33,14 +33,6 @@ export default async function handler(req, res) {
       throw new Error('沒有收到食譜資料');
     }
 
-    // 2. 【修正】模型名稱改為正確的 gemini-2.5-flash
-    const model = genAI.getGenerativeModel({
-      model: "gemini-2.5-flash-lite", 
-      generationConfig: {
-        responseMimeType: "application/json",
-      }
-    });
-
     const prompt =`
       你是專業的台灣五星級大廚與營養師。
       請將以下提供的原始英文食譜資料 (Raw Data)，轉換為台灣繁體中文的使用者友善格式。
@@ -84,20 +76,52 @@ export default async function handler(req, res) {
       2. 翻譯必須在地化，例如 "Cornstarch" 翻為 "太白粉" 或 "玉米粉"。
     `;
 
-    const result = await model.generateContent(prompt);
-    const response = await result.response;
-    const text = response.text();
+    // 2. 【升級】加入 Retry 機制與 Model Fallback
+    const maxRetries = 2;
+    let attempt = 0;
+    let parsedData = null;
+    let currentModelName = "gemini-2.5-flash-lite"; // 預設模型
 
-    // 3. 【修正】使用更強健的方式擷取 JSON，避免 SyntaxError
-    // 即使設定了 responseMimeType，這層防護依然是必要的
-    const jsonMatch = text.match(/\{[\s\S]*\}/);
+    while (attempt <= maxRetries) {
+      try {
+        const model = genAI.getGenerativeModel({
+          model: currentModelName, 
+          generationConfig: {
+            responseMimeType: "application/json",
+          }
+        });
 
-    if (!jsonMatch) {
-       throw new Error("AI 回傳的內容找不到有效的 JSON 格式");
+        const result = await model.generateContent(prompt);
+        const response = await result.response;
+        const text = response.text();
+
+        // 3. 【升級】使用更強健的方式擷取 JSON，剝離 Markdown
+        let cleanText = text.replace(/```json/gi, '').replace(/```/g, '').trim();
+        const jsonMatch = cleanText.match(/\{[\s\S]*\}/);
+
+        if (!jsonMatch) {
+           throw new Error("AI 回傳的內容找不到有效的 JSON 格式");
+        }
+
+        const jsonString = jsonMatch[0];
+        parsedData = JSON.parse(jsonString);
+        break; // 成功解析，跳出 Retry 迴圈
+        
+      } catch (err) {
+        attempt++;
+        console.warn(`[嘗試 ${attempt}] AI 處理失敗 (使用模型 ${currentModelName}):`, err.message);
+        
+        if (attempt > maxRetries) {
+          throw err; // 超過最大重試次數，將錯誤往外丟
+        }
+        
+        // 遇到錯誤，暫停 1 秒鐘
+        await new Promise(res => setTimeout(res, 1000));
+        
+        // 如果 2.5-flash-lite 失敗，通常是因為塞車。我們在重試時自動降級切換到 1.5-flash
+        currentModelName = "gemini-1.5-flash"; 
+      }
     }
-
-    const jsonString = jsonMatch[0];
-    const parsedData = JSON.parse(jsonString);
 
     console.log("AI 轉換成功:", parsedData.title_zh);    
 
