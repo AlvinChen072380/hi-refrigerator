@@ -92,7 +92,7 @@ export default async function handler(req, res) {
     // ==========================================
     // 🚀 任務 B：資料庫快取 (Cache Hit 邏輯)
     // ==========================================
-    const cacheKey = `recipe:ai:${recipeData.idMeal}`;
+    const cacheKey = `recipe:ai:v2:${recipeData.idMeal}`;
 
     try {
       const cachedData = await kv.get(cacheKey);
