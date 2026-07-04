@@ -80,7 +80,7 @@ export default async function handler(req, res) {
     const maxRetries = 2;
     let attempt = 0;
     let parsedData = null;
-    let currentModelName = "gemini-3.1-flash-live-preview"; // 預設主模型
+    let currentModelName = "gemini-3.1-flash-lite"; // 預設主模型
 
     while (attempt <= maxRetries) {
       try {
