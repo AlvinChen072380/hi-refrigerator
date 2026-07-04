@@ -1,5 +1,7 @@
 /* eslint-env node */
 import { GoogleGenerativeAI } from "@google/generative-ai";
+// 引入官方 KV 套件
+import { kv } from "@vercel/kv";
 // 1. 【新增】確保本地環境能讀取 .env
 import dotenv from 'dotenv';
 dotenv.config();
@@ -32,6 +34,24 @@ export default async function handler(req, res) {
     if (!recipeData) {
       throw new Error('沒有收到食譜資料');
     }
+
+    // ==========================================
+    // 🚀 任務 B：資料庫快取 (Cache Hit 邏輯)
+    // ==========================================
+    const cacheKey = `recipe:ai:${recipeData.idMeal}`;
+    
+    try {
+      const cachedData = await kv.get(cacheKey);
+      if (cachedData) {
+        console.log(`[Cache Hit] 命中快取！瞬間回傳食譜: ${cachedData.title_zh}`);
+        return res.status(200).json(cachedData);
+      }
+    } catch (kvError) {
+      // 如果 Redis 連線失敗，我們不該讓整支 API 掛掉，而是印出警告，然後繼續走原本的 AI 流程
+      console.warn(`[Redis Warning] 快取讀取失敗: ${kvError.message}`);
+    }
+
+    console.log(`[Cache Miss] 未命中快取，準備呼叫 AI 分析食譜 ID: ${recipeData.idMeal}`);
 
     const prompt =`
       你是專業的台灣五星級大廚與營養師。
@@ -124,6 +144,17 @@ export default async function handler(req, res) {
     }
 
     console.log("AI 轉換成功:", parsedData.title_zh);    
+
+    // ==========================================
+    // 🚀 任務 B：資料庫快取 (Cache Set 邏輯)
+    // ==========================================
+    try {
+      // 將成功翻譯的結果存入 Redis。下次有人點擊同一個食譜，就會觸發上方的 Cache Hit
+      await kv.set(cacheKey, parsedData);
+      console.log(`[Cache Set] 成功寫入 Redis 快取`);
+    } catch (kvSetError) {
+      console.warn(`[Redis Warning] 快取寫入失敗: ${kvSetError.message}`);
+    }
 
     res.status(200).json(parsedData);
 
