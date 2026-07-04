@@ -85,7 +85,8 @@ export default async function handler(req, res) {
     // ==========================================
     // 🚀 任務 B：資料庫快取 (Cache Hit 邏輯)
     // ==========================================
-    const cacheKey = `recipe:ai:${recipeData.idMeal}`;
+    // 加入 v2 命名空間，強制廢棄舊版未壓縮的快取，避免前端 Adapter 取不到資料
+    const cacheKey = `recipe:ai:v2:${recipeData.idMeal}`;
     
     try {
       const cachedData = await kv.get(cacheKey);
