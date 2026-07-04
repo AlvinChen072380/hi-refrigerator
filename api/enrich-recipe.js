@@ -174,7 +174,7 @@ export default async function handler(req, res) {
       }
     }
 
-    console.log("AI 轉換成功:", parsedData.title_zh);    
+    console.log("AI 轉換成功:", parsedData.title);    
 
     // ==========================================
     // 🚀 任務 B：資料庫快取 (Cache Set 邏輯)
