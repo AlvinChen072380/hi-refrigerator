@@ -2,10 +2,12 @@ import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 import { VitePWA } from 'vite-plugin-pwa'
 
+
 // https://vite.dev/config/
 export default defineConfig({
   plugins: [
     react(),
+
     //  加入 PWA 設定
       VitePWA({
       registerType: 'autoUpdate', // 自動更新 Service Worker

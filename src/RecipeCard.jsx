@@ -12,7 +12,10 @@ function RecipeCard({ meal, handleShowDetails }) {
   const fallbackImage = "https://placehold.co/600x400?text=No+Image";
 
   return (
-    <div className="recipe-card" onClick={() => handleShowDetails(idMeal)}>
+    <div 
+      className="recipe-card"
+      onClick={() => handleShowDetails(idMeal)}
+    >
       <img 
         src={imgError ? fallbackImage : strMealThumb} 
         alt={strMeal} 
@@ -26,7 +29,7 @@ function RecipeCard({ meal, handleShowDetails }) {
         Area : {strArea}
       </p>
 
-      <button data-id={idMeal} >
+      <button data-id={idMeal}>
         Let's Cook !
       </button>
     </div>

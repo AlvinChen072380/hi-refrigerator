@@ -107,23 +107,24 @@ export function usePageAnimations ({
         const cards = gsap.utils.toArray(".recipe-card");
         if (cards.length === 0) return;
   
+        // 停止上一輪殘餘動畫
         gsap.killTweensOf(".recipe-card");
-  
-        gsap.set(".recipe-card", { clearProps: "all" });
-  
+
+        // CSS 已設定 opacity:0; visibility:hidden 作為初始狀態（防止閃爍）
+        // 直接從 CSS 初始狀態動畫到可見，不需要再用 gsap.set 重設
         gsap.fromTo(
           ".recipe-card",
-          {
-            y: 50,
-            autoAlpha: 0,
-          },
+          { y: 50, autoAlpha: 0 },
           {
             y: 0,
             autoAlpha: 1,
             duration: 0.6,
             stagger: 0.2,
             ease: "back.inOut(1.5)",
-            onInterrupt: () => gsap.set(".recipe-card", { autoAlpha: 1 })
+            // 動畫完成後清除 GSAP 設的 y inline style，
+            // 但 **保留** visibility:visible 讓 pointer-events 正常工作
+            clearProps: "y,transform",
+            onInterrupt: () => gsap.set(".recipe-card", { autoAlpha: 1, y: 0 }),
           }
         );
       },

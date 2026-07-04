@@ -1,4 +1,4 @@
-
+﻿
 * {
   margin: 0;
   padding: 0;
@@ -78,7 +78,7 @@ html,
   scrollbar-width: none;
 }
 
-html::-webkit-scrollbar,
+html::--webkit-scrollbar,
 .modal-left::-webkit-scrollbar,
 .modal-right::-webkit-scrollbar,
 .modal-content::-webkit-scrollbar {
@@ -402,7 +402,6 @@ header {
   z-index: 1010; /* ??蝣箔?瘥?content 擃?*/
   cursor: pointer;  
   background: rgba(255, 255, 255, 0.2); /* 頛凝????摨?憓??航?摨?*/
-    -webkit-backdrop-filter: blur(4px);
   backdrop-filter: blur(4px);
   width: 40px;
   height: 40px;
@@ -568,7 +567,7 @@ header {
 }
 /* ?曉蝚西? (?身?梯?) */
 .custom-checkbox::after {
-  content: "??";
+  content: "??;
   color: white;
   font-size: 14px;
   font-weight: bold;
