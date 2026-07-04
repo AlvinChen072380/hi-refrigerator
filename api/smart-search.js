@@ -55,6 +55,7 @@ export default async function handler(req, res) {
       2. Translate them into English keywords.
       3. Format the output as a single string joined by commas (e.g., "chicken_breast,garlic").
       4. Use underscores (_) instead of spaces for multi-word ingredients.
+      5. CRITICAL: ALWAYS use singular nouns for ingredients (e.g., "vegetable" NOT "vegetables", "tomato" NOT "tomatoes", "potato" NOT "potatoes").
 
       User Input: "${searchTerm}"
     `;
