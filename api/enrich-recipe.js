@@ -1,5 +1,5 @@
 /* eslint-env node */
-import { GoogleGenerativeAI } from "@google/generative-ai";
+import { GoogleGenerativeAI, SchemaType } from "@google/generative-ai";
 // 引入官方 KV 套件
 import { kv } from "@vercel/kv";
 // 1. 【新增】確保本地環境能讀取 .env
@@ -7,6 +7,53 @@ import dotenv from 'dotenv';
 dotenv.config();
 
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
+
+// ==========================================
+// 🚀 任務 C：Gemini API 專用 Schema 定義 (Structured Outputs)
+// 透過嚴格定義 Schema，我們甚至不用在 Prompt 裡寫 JSON 範例，大幅節省 Input Tokens，並且保證 100% 輸出正確的 JSON 格式。
+// ==========================================
+const recipeSchema = {
+  type: SchemaType.OBJECT,
+  properties: {
+    title: { type: SchemaType.STRING, description: "翻譯並優化後的台灣繁體中文菜名 (看起來要好吃)" },
+    desc: { type: SchemaType.STRING, description: "一段約30-50字的繁體中文介紹，描述口感與特色，吸引人嘗試" },
+    diff: { type: SchemaType.STRING, description: "難度：簡單、中等或困難" },
+    time: { type: SchemaType.STRING, description: "預估製作時間 (例如：25分鐘)" },
+    tags: { type: SchemaType.ARRAY, items: { type: SchemaType.STRING }, description: "3個相關標籤" },
+    nutr: {
+      type: SchemaType.OBJECT,
+      properties: {
+        cal: { type: SchemaType.NUMBER, description: "預估卡路里" },
+        pro: { type: SchemaType.STRING, description: "預估蛋白質(克)" },
+        car: { type: SchemaType.STRING, description: "預估碳水(克)" }
+      },
+      required: ["cal", "pro", "car"]
+    },
+    ing: {
+      type: SchemaType.ARRAY,
+      items: {
+        type: SchemaType.OBJECT,
+        properties: {
+          i: { type: SchemaType.STRING, description: "食材名稱(繁體中文)" },
+          a: { type: SchemaType.STRING, description: "份量(台灣常用單位)" }
+        },
+        required: ["i", "a"]
+      }
+    },
+    steps: {
+      type: SchemaType.ARRAY,
+      items: {
+        type: SchemaType.OBJECT,
+        properties: {
+          txt: { type: SchemaType.STRING, description: "詳細步驟說明" },
+          act: { type: SchemaType.STRING, description: "關鍵動作(切丁、汆燙等，若無則留空)" }
+        },
+        required: ["txt", "act"]
+      }
+    }
+  },
+  required: ["title", "desc", "diff", "time", "tags", "nutr", "ing", "steps"]
+};
 
 export default async function handler(req, res) {
   // CORS 設定
@@ -43,7 +90,7 @@ export default async function handler(req, res) {
     try {
       const cachedData = await kv.get(cacheKey);
       if (cachedData) {
-        console.log(`[Cache Hit] 命中快取！瞬間回傳食譜: ${cachedData.title_zh}`);
+        console.log(`[Cache Hit] 命中快取！瞬間回傳食譜: ${cachedData.title}`);
         return res.status(200).json(cachedData);
       }
     } catch (kvError) {
@@ -53,43 +100,25 @@ export default async function handler(req, res) {
 
     console.log(`[Cache Miss] 未命中快取，準備呼叫 AI 分析食譜 ID: ${recipeData.idMeal}`);
 
+    // ==========================================
+    // 🚀 任務 C：Prompt 優化 (移除 JSON 範本，改用 Schema)
+    // ==========================================
     const prompt =`
       你是專業的台灣五星級大廚與營養師。
-      請將以下提供的原始英文食譜資料 (Raw Data)，轉換為台灣繁體中文的使用者友善格式。
+      請將以下提供的原始英文食譜資料 (Raw Data)，翻譯並轉換為台灣繁體中文。
       
       原始資料：
-      ${JSON.stringify(recipeData)}
-
-      請嚴格遵守以下 JSON 結構回傳資料 (不要包含任何 Markdown 標記)：
-
-      {
-        "id": "原始ID",
-        "title_en": "原始英文標題",
-        "title_zh": "翻譯並優化後的台灣繁體中文菜名 (看起來要好吃)",
-        "description_zh": "一段約30-50字的繁體中文介紹，描述口感與特色，吸引人嘗試",
-        "difficulty": "簡單" | "中等" | "困難",
-        "time_estimate": "預估製作時間 (例如：25分鐘)",
-        "tags": ["標籤1", "標籤2", "標籤3"],
-        "nutrition_estimate": {
-          "calories": number (預估卡路里),
-          "protein": "預估蛋白質 (克)",
-          "carbon": "預估碳水 (克)"
-        },
-        "ingredients": [
-          {
-            "item": "食材名稱 (繁體中文)",
-            "amount": "份量 (轉換為台灣常用單位，如公克、大匙、碗)",
-            "original_text": "保留原始英文食材描述以供對照"
-          }
-        ],
-        "steps": [
-          {
-            "step_number": 1,
-            "content": "詳細步驟說明 (繁體中文，語氣親切，邏輯清晰)",
-            "action_tag": "關鍵動作 (如：切丁、汆燙、爆香，若無則留空)"
-          }
-        ]
-      }
+      ${JSON.stringify({
+        // 為了節省 Input Token，只傳入需要翻譯的核心資料，過濾掉多餘的欄位
+        idMeal: recipeData.idMeal,
+        strInstructions: recipeData.strInstructions,
+        ingredients: Object.keys(recipeData)
+          .filter(k => k.startsWith('strIngredient') && recipeData[k])
+          .map(k => ({
+            name: recipeData[k],
+            measure: recipeData[`strMeasure${k.replace('strIngredient', '')}`]
+          }))
+      })}
       
       注意：
       1. 若原始資料缺少某些數值(如營養)，請根據食材進行專業估算。
@@ -108,6 +137,7 @@ export default async function handler(req, res) {
           model: currentModelName, 
           generationConfig: {
             responseMimeType: "application/json",
+            responseSchema: recipeSchema, // 🚀 將嚴格定義的 Schema 綁定上去
           }
         });
 
