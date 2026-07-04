@@ -80,7 +80,7 @@ export default async function handler(req, res) {
     const maxRetries = 2;
     let attempt = 0;
     let parsedData = null;
-    let currentModelName = "gemini-2.5-flash-lite"; // 預設模型
+    let currentModelName = "gemini-3.1-flash-live-preview"; // 預設主模型
 
     while (attempt <= maxRetries) {
       try {
@@ -118,8 +118,8 @@ export default async function handler(req, res) {
         // 遇到錯誤，暫停 1 秒鐘
         await new Promise(res => setTimeout(res, 1000));
         
-        // 如果 2.5-flash-lite 失敗，通常是因為塞車。我們在重試時自動降級切換到 1.5-flash
-        currentModelName = "gemini-1.5-flash"; 
+        // 如果主模型失敗，通常是因為塞車。我們在重試時自動降級切換到備援模型
+        currentModelName = "gemini-2.5-flash"; 
       }
     }
 
