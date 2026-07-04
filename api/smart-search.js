@@ -1,9 +1,19 @@
-import { GoogleGenerativeAI } from "@google/generative-ai";
+import { GoogleGenerativeAI, SchemaType } from "@google/generative-ai";
 
 import dotenv from 'dotenv';
 dotenv.config();
 
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
+
+const searchSchema = {
+  type: SchemaType.OBJECT,
+  properties: {
+    original_input: { type: SchemaType.STRING },
+    english_keyword: { type: SchemaType.STRING, description: "Ingredients translated to English, joined by commas. Use underscores for multi-word ingredients." },
+    is_multiple: { type: SchemaType.BOOLEAN }
+  },
+  required: ["original_input", "english_keyword", "is_multiple"]
+};
 
 export default async function handler(req, res) {
   // 1. 設定 CORS (允許跨域請求)
@@ -35,7 +45,13 @@ export default async function handler(req, res) {
         return res.status(400).json({ error: 'Search term is required' });
     }
 
-    const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash-lite" });
+    const model = genAI.getGenerativeModel({
+      model: "gemini-2.5-flash-lite",
+      generationConfig: {
+        responseMimeType: "application/json",
+        responseSchema: searchSchema
+      }
+    });
     
     // 【修正點 2】：Prompt 中的變數必須與上方定義的 const { searchTerm } 一致
     const prompt = `
@@ -47,24 +63,15 @@ export default async function handler(req, res) {
       2. Translate them into English keywords.
       3. Format the output as a single string joined by commas (e.g., "chicken_breast,garlic").
       4. Use underscores (_) instead of spaces for multi-word ingredients.
-      5. Output strict JSON.
 
       User Input: "${searchTerm}"
-
-      Expected Output Format (JSON only):
-      {
-        "original_input": "${searchTerm}",
-        "english_keyword": "pork,apple", 
-        "is_multiple": true
-      }
     `;
 
     const result = await model.generateContent(prompt);
     const responseText = result.response.text();
     
-    // 清理 Markdown 格式
-    const jsonString = responseText.replace(/```json|```/g, "").trim();
-    const analysisResult = JSON.parse(jsonString);
+    // 設定 responseSchema 後，必定回傳合法 JSON，無需 Regex
+    const analysisResult = JSON.parse(responseText);
 
     return res.status(200).json(analysisResult);
 

@@ -1,9 +1,21 @@
 /* eslint-env node */
-import { GoogleGenerativeAI } from "@google/generative-ai";
+import { GoogleGenerativeAI, SchemaType } from "@google/generative-ai";
 import dotenv from 'dotenv';
 dotenv.config();
 
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
+
+const veganSchema = {
+  type: SchemaType.OBJECT,
+  properties: {
+    safeIds: {
+      type: SchemaType.ARRAY,
+      items: { type: SchemaType.STRING },
+      description: "Array of safe recipe ID strings"
+    }
+  },
+  required: ["safeIds"]
+};
 
 export default async function handler(req, res) {
   // --- CORS 設定 ---
@@ -53,7 +65,8 @@ export default async function handler(req, res) {
     const model = genAI.getGenerativeModel({
       model: "gemini-2.5-flash-lite", 
       generationConfig: { 
-        responseMimeType: "application/json" // 強制回傳 JSON
+        responseMimeType: "application/json",
+        responseSchema: veganSchema
       }
     });
 
@@ -73,10 +86,6 @@ export default async function handler(req, res) {
 
       Input Data: 
       ${JSON.stringify(simplifiedRecipes)}
-
-      Output Requirement:
-      Return a JSON Object with a single key "safeIds" containing an array of ID strings.
-      Example: { "safeIds": ["52772", "53380"] }
     `;
 
     const result = await model.generateContent(prompt);
@@ -84,22 +93,15 @@ export default async function handler(req, res) {
 
     console.log("AI Raw Output:", responseText); 
 
-    // 3. 解析 JSON (直接 parse，因為設定了 responseMimeType)
+    // 3. 解析 JSON (設定 responseSchema 後，模型必定回傳符合結構的 JSON)
     let parsedData;
     try {
         parsedData = JSON.parse(responseText);
     } catch (e) {
-        // 保底 Regex 解析，以防萬一
-        const jsonMatch = responseText.match(/\{[\s\S]*\}/);
-        if (jsonMatch) {
-            parsedData = JSON.parse(jsonMatch[0]);
-        } else {
-            throw new Error("Invalid JSON format from AI");
-        }
+        throw new Error("Invalid JSON format from AI");
     }
 
-    // 確保回傳格式正確
-    const safeIds = parsedData.safeIds || [];
+    const { safeIds } = parsedData;
 
     return res.status(200).json({ safeIds });
 
