@@ -37,7 +37,7 @@ export default function HeroSearch({
           disabled={loading || isSearching}
         >
           {isSearching
-            ? "almost down..."
+            ? "AI Analyzing..."
             : loading
             ? "Loading..."
             : isVeganMode

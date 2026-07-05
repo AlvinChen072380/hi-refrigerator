@@ -174,6 +174,7 @@ function App() {
         isVeganMode={isVeganMode}
         isAnalyzing={isAnalyzing}
         analyzedRecipes={analyzedRecipes}
+        isSearching={isSearching}
       />
 
       <RecipeList

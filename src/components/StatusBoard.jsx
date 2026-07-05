@@ -8,7 +8,22 @@ export default function StatusBoard({
   isVeganMode,
   isAnalyzing,
   analyzedRecipes,
+  isSearching,
 }) {
+  // 0. AI 智慧搜尋中狀態 (最優先顯示，蓋掉前一次搜尋的舊狀態)
+  if (isSearching) {
+    return (
+      <section>
+        <div className="loading-container">
+          <div className="spinner"></div>
+          <p className="loading-text">
+            AI 正在解讀您的食材...
+          </p>
+        </div>
+      </section>
+    );
+  }
+
   return (
     <>
       <section>
@@ -58,14 +73,12 @@ export default function StatusBoard({
 
       {/* 素食模式分析中 */}
       {isVeganMode && isAnalyzing && !loading && hasSearched && (
-        <div style={{ textAlign: "center", padding: "40px" }}>
-          <div>
-            <span style={{ fontSize: "3rem", display: "inline-block", animation: "bounce 1s infinite" }}>🧑‍🍳</span>
-          </div>
-          <p style={{ color: "var(--text-secondary)", marginTop: "10px" }}>
+        <div className="loading-container">
+          <div className="spinner"></div>
+          <p className="loading-text">
             AI Chef is checking ingredients for you... <br />
-            <span style={{ fontSize: "0.8rem", opacity: 0.7 }}>
-              (Filtering out meat &amp; fish)
+            <span style={{ fontSize: "0.85rem", opacity: 0.8, fontWeight: "normal" }}>
+              (Filtering out meat & fish)
             </span>
           </p>
         </div>
