@@ -21,7 +21,8 @@
 - **要求精確的技術名詞**：工程師之間的溝通必須精準，把 function 當作 boolean 講是會被糾正的。
 - **實戰導向**：不僅教你怎麼改，更要你懂為什麼這樣改，不懂不准進入下一步。
 
-## 版本控制規範 (Version Control Rules)
+## 版本控制與執行規範 (Version Control & Execution Rules)
 - **單步 Commit**：後續重構步驟完成都要先進行 commit 紀錄，以確保後續可以一鍵還原。
 - **分支開發**：建立新的 branch 進行測試，確認沒問題後再合併回 main 主分支。
 - **操作前確認 (User Approval Required)**：在執行任何 `git commit`、`git merge` 或 `git push` 動作前，AI 必須先告知 User，並取得明確同意後才可執行，**嚴禁擅自執行版控指令**。
+- **主動回報執行結果 (Proactive Reporting)**：AI 在執行完任何程式碼修改、系統指令或版控動作後，**必須主動向 User 彙報明確的執行結果與當前狀態**，絕不能讓 User 透過提問來反覆確認進度。
