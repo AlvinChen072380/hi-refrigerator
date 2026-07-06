@@ -21,9 +21,19 @@ export default function RecipeModalWrapper() {
   });
 
   const handleClose = () => {
-    // Go back to the background page instead of just clearing local state
     navigate(-1);
   };
 
-  return <RecipeModal meal={meal} loading={isLoading} onClose={handleClose} />;
+  // 在資料還沒回來前，先顯示一個沒有動畫的黑色遮罩與 Loading，
+  // 避免 RecipeModal 提早掛載導致 GSAP 動畫在 Loading 結束時發生「跳動」
+  if (isLoading || !meal) {
+    return (
+      <div className="modal" onClick={handleClose} style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+        <div style={{ color: 'white', fontSize: '1.5rem', fontWeight: 'bold' }}>Loading recipe...</div>
+      </div>
+    );
+  }
+
+  // 資料回來後，才真正掛載 RecipeModal，此時 GSAP 進場動畫才會完美執行一次
+  return <RecipeModal meal={meal} loading={false} onClose={handleClose} />;
 }
