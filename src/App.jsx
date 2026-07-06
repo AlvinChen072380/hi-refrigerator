@@ -1,8 +1,7 @@
 import { useState, useEffect, useRef } from "react";
+import { Routes, Route, useLocation } from "react-router-dom";
 import "./index.css";
-import RecipeModal from "./RecipeModal";
 import { useRecipes } from "./hook/useRecipes";
-import { useRecipeDetail } from "./hook/useRecipeDetail";
 import { useTheme } from "./hook/useTheme";
 import { SEO } from "./SEO";
 import { MOCK_RECIPES } from "./data/mockRecipes";
@@ -15,6 +14,7 @@ import NavBar from "./components/NavBar.jsx";
 import HeroSearch from "./components/HeroSearch.jsx";
 import StatusBoard from "./components/StatusBoard.jsx";
 import RecipeList from "./components/RecipeList.jsx";
+import RecipeModalWrapper from "./RecipeModalWrapper.jsx";
 
 function App() { 
   
@@ -63,13 +63,8 @@ function App() {
   const [aiSuggestion, setAiSuggestion] = useState(null); //儲存AI 查了什麼字
   const inputRef = useRef(null);
 
-  const { 
-    selectedId, 
-    modalData, 
-    isModalLoading, 
-    handleShowDetails, 
-    handleCloseModal 
-  } = useRecipeDetail();
+  const location = useLocation();
+  const background = location.state?.background;
   const [isInfoOpen, setIsInfoOpen] = useState(false);
 
   //聚焦 Input
@@ -153,53 +148,55 @@ function App() {
         toggleTheme={toggleTheme} 
       />
 
-      <HeroSearch
-        onResetWrapper={onResetWrapper}
-        isVeganMode={isVeganMode}
-        inputRef={inputRef}
-        searchTerm={searchTerm}
-        onInputChangeWrapper={onInputChangeWrapper}
-        handleSmartSearch={handleSmartSearch}
-        isSearching={isSearching}
-        loading={loading}
-        aiSuggestion={aiSuggestion}
-      />
-      <StatusBoard
-        loading={loading}
-        searchTerm={searchTerm}
-        error={error}
-        warning={warning}
-        recipes={recipes}
-        hasSearched={hasSearched}
-        isVeganMode={isVeganMode}
-        isAnalyzing={isAnalyzing}
-        analyzedRecipes={analyzedRecipes}
-        isSearching={isSearching}
-      />
+      <Routes location={background || location}>
+        <Route path="/" element={
+          <>
+            <HeroSearch
+              onResetWrapper={onResetWrapper}
+              isVeganMode={isVeganMode}
+              inputRef={inputRef}
+              searchTerm={searchTerm}
+              onInputChangeWrapper={onInputChangeWrapper}
+              handleSmartSearch={handleSmartSearch}
+              isSearching={isSearching}
+              loading={loading}
+              aiSuggestion={aiSuggestion}
+            />
+            <StatusBoard
+              loading={loading}
+              searchTerm={searchTerm}
+              error={error}
+              warning={warning}
+              recipes={recipes}
+              hasSearched={hasSearched}
+              isVeganMode={isVeganMode}
+              isAnalyzing={isAnalyzing}
+              analyzedRecipes={analyzedRecipes}
+              isSearching={isSearching}
+            />
+            <RecipeList
+              loading={loading}
+              error={error}
+              isAnalyzing={isAnalyzing}
+              currentDisplayRecipes={currentDisplayRecipes}
+            />
+          </>
+        } />
+        {/* 如果使用者直接輸入網址進來，沒有 background，則顯示為獨立頁面 */}
+        <Route path="/recipe/:id" element={<RecipeModalWrapper />} />
+      </Routes>
 
-      <RecipeList
-        loading={loading}
-        error={error}
-        isAnalyzing={isAnalyzing}
-        currentDisplayRecipes={currentDisplayRecipes}
-        handleShowDetails={handleShowDetails}
-      />
-      {/* -- 條件渲染 Modal -- */}
-      {/* 只有當 selectedId 有值得時候，才把 Modal 畫出來 */}
-      {selectedId &&
-        modalData && ( //必須檢查 modalData 是否存在 預防非同不載入的null讀取錯誤
-          <RecipeModal
-            key={modalData.idMeal}
-            meal={modalData}
-            loading={isModalLoading}
-            onClose={handleCloseModal}
-          />
-        )}
+      {/* 條件渲染 Modal：當存在 background (代表是從首頁點進來的) 時，覆蓋在首頁之上 */}
+      {background && (
+        <Routes>
+          <Route path="/recipe/:id" element={<RecipeModalWrapper />} />
+        </Routes>
+      )}
        
-        <TechStackModal 
-          isOpen={isInfoOpen} 
-          onClose={() => setIsInfoOpen(false)} 
-        />     
+      <TechStackModal 
+        isOpen={isInfoOpen} 
+        onClose={() => setIsInfoOpen(false)} 
+      />     
     </div>
   );
 }

@@ -5,7 +5,6 @@ export default function RecipeList({
   error,
   isAnalyzing,
   currentDisplayRecipes,
-  handleShowDetails,
 }) {
   if (loading || error || isAnalyzing || currentDisplayRecipes.length === 0) {
     return null;
@@ -17,7 +16,6 @@ export default function RecipeList({
         <RecipeCard
           key={meal.idMeal}
           meal={meal}
-          handleShowDetails={handleShowDetails}
         />
       ))}
     </section>

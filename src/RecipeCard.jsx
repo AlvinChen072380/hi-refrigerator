@@ -1,7 +1,8 @@
 import { useState } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
 
 /* 透過Destructuring 直接拿出 meal 這個屬性 */
-function RecipeCard({ meal, handleShowDetails }) {
+function RecipeCard({ meal }) {
 
   /* 為了易毒性與維護性，將按鈕點擊所需的 ID 統一管理 */
   const { idMeal, strMeal, strMealThumb, strCategory, strArea } = meal;
@@ -11,10 +12,18 @@ function RecipeCard({ meal, handleShowDetails }) {
   //加載失敗時的預設圖片
   const fallbackImage = "https://placehold.co/600x400?text=No+Image";
 
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  const handleCardClick = () => {
+    // 導航到食譜頁面，同時偷偷把「現在的首頁」當作背景傳遞過去
+    navigate(`/recipe/${idMeal}`, { state: { background: location } });
+  };
+
   return (
     <div 
       className="recipe-card"
-      onClick={() => handleShowDetails(idMeal)}
+      onClick={handleCardClick}
     >
       <img 
         src={imgError ? fallbackImage : strMealThumb} 
