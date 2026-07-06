@@ -127,7 +127,7 @@ function RecipeModal({ meal, onClose, loading }) {
             <div className="modal-grid">
 
               {/* 手機版專用的切換按鈕 — 桌面隱藏，手機顯示 */}
-              <div className="flex md:hidden justify-center gap-[15px] py-5 border-b border-[--border-color] mb-5 bg-[--card-bg] w-full shrink-0" style={{ display: "none" }}>
+              <div className="mobile-tabs">
                   <button
                     className={`tab-btn ${activeTab === "recipe" ? "active" : ""}`}
                     onClick={() => setActiveTab("recipe")}

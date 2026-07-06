@@ -9,7 +9,7 @@ export default function RecipeContent({ activeTab, meal }) {
   const [showAiContent, setShowAiContent] = useState(false);
 
   return (
-    <div className={`modal-left ${activeTab === "recipe" ? "active" : ""}`}>
+    <div className={`modal-left ${activeTab === "recipe" ? "active-content" : ""}`}>
       {/* 有AI資料就顯示中文，沒有就顯示原始英文資料 */}
       <h2>{aiRecipe && showAiContent ? aiRecipe.title_zh : meal.strMeal}</h2>
 

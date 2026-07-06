@@ -9,7 +9,7 @@ export default function ShoppingList({
   copyToClipboard,
 }) {
   return (
-    <div className={`modal-right ${activeTab === "ingredients" ? "active" : ""}`}>
+    <div className={`modal-right ${activeTab === "ingredients" ? "active-content" : ""}`}>
       <h3>🛒 Ingredients List</h3>
       <p className="sub-text">check or delete</p>
 
