@@ -26,11 +26,19 @@ const getIngredients = (meal) => {
 
 export function useShoppingList(meal) {
   const [ingredients, setIngredients] = useState(() => {
-    // 直接在這裡做初始讀取，不用 useEffect 來 set
+    // 初始讀取 (若為 loading 狀態 meal 會是 null)
     if (!meal) return [];
     const saved = localStorage.getItem(`shopping-list-${meal.idMeal}`);
     return saved ? JSON.parse(saved) : getIngredients(meal);
   });
+
+  // 當資料載入完成 (meal 從 null 變成有值) 時，更新 state
+  useEffect(() => {
+    if (meal) {
+      const saved = localStorage.getItem(`shopping-list-${meal.idMeal}`);
+      setIngredients(saved ? JSON.parse(saved) : getIngredients(meal));
+    }
+  }, [meal?.idMeal]);
 
   // 自動存檔機制
   // 只要ingredients 有任何更動，就自動存檔
